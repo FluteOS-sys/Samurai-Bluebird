@@ -1,0 +1,14 @@
+# Auto normalize line endings
+* text=auto
+
+# Explicitly mark common text files
+*.py text
+*.md text
+*.json text
+*.txt text
+
+# Treat shell scripts as text
+*.sh text eol=lf
+
+# Treat batch files as text
+*.bat text eol=crlf

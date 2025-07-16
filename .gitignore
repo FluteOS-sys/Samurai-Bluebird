@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+
+# PyCharm / VSCode
+.idea/
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Samurai Bluebird runtime artifacts
+logs/
+batches/
+memory/symbolic_neurons_v001.json
+memory/krishna_meta.json
+
+# Environment / secret configs
+.env
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
