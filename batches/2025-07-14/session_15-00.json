@@ -1,0 +1,22 @@
+{
+    "timestamp": "2025-07-14T15:00:00",
+    "feathers_capture": {
+        "active_window": "VSCode - Samurai Bluebird",
+        "keystrokes": 442,
+        "screenshot_analysis": {
+            "detected_text": ["Frameworks Layer", "Sovereignties Mapping"],
+            "image_emotions": ["attentive", "curious"]
+        },
+        "app_activity": ["PyCharm", "Notion", "Browser"]
+    },
+    "symbolic_tags": {
+        "sovereignties": ["Expression"],
+        "chakras": ["Sacral"],
+        "context_domains": ["Foundations"]
+    },
+    "meta": {
+        "emotional_resonance": ["attentive", "exploratory"],
+        "batch_index": 2,
+        "notes": "Seed batch for system training. Simulated passive input."
+    }
+}

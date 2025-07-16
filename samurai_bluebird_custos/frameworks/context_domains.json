@@ -1,0 +1,86 @@
+{
+  "Foundations": {
+    "index": 1,
+    "themes": ["Stability", "Survival", "Resources"],
+    "color": "Brown",
+    "element": "Earth",
+    "description": "The base of physical and emotional security."
+  },
+  "Creativity": {
+    "index": 2,
+    "themes": ["Innovation", "Artistry", "Flow"],
+    "color": "Orange",
+    "element": "Water",
+    "description": "The domain of self-expression and creative flow."
+  },
+  "Partnerships": {
+    "index": 3,
+    "themes": ["Relationships", "Trust", "Communication"],
+    "color": "Pink",
+    "element": "Air",
+    "description": "One-on-one connections and mutual growth."
+  },
+  "Community": {
+    "index": 4,
+    "themes": ["Belonging", "Support", "Cooperation"],
+    "color": "Green",
+    "element": "Earth",
+    "description": "Group dynamics and collective wellbeing."
+  },
+  "Health": {
+    "index": 5,
+    "themes": ["Wellness", "Healing", "Vitality"],
+    "color": "Red",
+    "element": "Fire",
+    "description": "Physical and mental health, wholeness."
+  },
+  "Work": {
+    "index": 6,
+    "themes": ["Career", "Purpose", "Contribution"],
+    "color": "Blue",
+    "element": "Metal",
+    "description": "Vocation and meaningful contribution to the world."
+  },
+  "Learning": {
+    "index": 7,
+    "themes": ["Growth", "Wisdom", "Perspective"],
+    "color": "Indigo",
+    "element": "Light",
+    "description": "Intellectual and spiritual development."
+  },
+  "Expression": {
+    "index": 8,
+    "themes": ["Voice", "Creativity", "Truth"],
+    "color": "Turquoise",
+    "element": "Sound",
+    "description": "Communication and authenticity."
+  },
+  "Play": {
+    "index": 9,
+    "themes": ["Joy", "Ease", "Exploration"],
+    "color": "Yellow",
+    "element": "Air",
+    "description": "Recreation, curiosity, and lightheartedness."
+  },
+  "Spirituality": {
+    "index": 10,
+    "themes": ["Transcendence", "Meaning", "Connection"],
+    "color": "Violet",
+    "element": "Ether",
+    "description": "Purpose, connection to the greater whole."
+  },
+  "Legacy": {
+    "index": 11,
+    "themes": ["Impact", "Teaching", "Story"],
+    "color": "Gold",
+    "element": "Time",
+    "description": "What we leave behind—contribution to future generations."
+  },
+  "Adaptation": {
+    "index": 12,
+    "themes": ["Change", "Resilience", "Flexibility"],
+    "color": "Gray",
+    "element": "Water",
+    "description": "Navigating change and transformation."
+  }
+}

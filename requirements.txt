@@ -1,0 +1,8 @@
+# requirements.txt
+pytesseract
+opencv-python
+pillow>=10.0.0
+psutil
+numpy
+pywin32; platform_system=="Windows"
+pynput

@@ -1,0 +1,434 @@
+{
+  "Courage": {
+    "chakra": "Solar Plexus",
+    "light": "Bravery",
+    "dark": "Recklessness",
+    "symbolic_spread": [1, 0]
+  },
+  "Humility": {
+    "chakra": "Heart",
+    "light": "Compassion",
+    "dark": "Self-effacement",
+    "symbolic_spread": [2, 1]
+  },
+  "Wisdom": {
+    "chakra": "Third Eye",
+    "light": "Clarity",
+    "dark": "Arrogance",
+    "symbolic_spread": [3, 2]
+  },
+  "Expression": {
+    "chakra": "Throat",
+    "light": "Authenticity",
+    "dark": "Overtalking",
+    "symbolic_spread": [4, 3]
+  },
+  "Integrity": {
+    "chakra": "Root",
+    "light": "Groundedness",
+    "dark": "Rigidity",
+    "symbolic_spread": [5, 4]
+  },
+  "Trust": {
+    "chakra": "Heart",
+    "light": "Openness",
+    "dark": "Naivety",
+    "symbolic_spread": [6, 5]
+  },
+  "Adaptability": {
+    "chakra": "Sacral",
+    "light": "Flexibility",
+    "dark": "Instability",
+    "symbolic_spread": [7, 6]
+  },
+  "Perspective": {
+    "chakra": "Crown",
+    "light": "Wisdom",
+    "dark": "Detachment",
+    "symbolic_spread": [8, 7]
+  },
+  "Mirroring": {
+    "chakra": "Throat",
+    "light": "Empathy",
+    "dark": "Enmeshment",
+    "symbolic_spread": [9, 8]
+  },
+  "Flow": {
+    "chakra": "Sacral",
+    "light": "Ease",
+    "dark": "Laziness",
+    "symbolic_spread": [10, 9]
+  },
+  "Resonance": {
+    "chakra": "Crown",
+    "light": "Alignment",
+    "dark": "Disconnection",
+    "symbolic_spread": [11, 10]
+  },
+  "Voice": {
+    "chakra": "Throat",
+    "light": "Articulation",
+    "dark": "Silence",
+    "symbolic_spread": [12, 11]
+  },
+  "Clarity": {
+    "chakra": "Third Eye",
+    "light": "Insight",
+    "dark": "Confusion",
+    "symbolic_spread": [13, 12]
+  },
+  "Repair": {
+    "chakra": "Heart",
+    "light": "Reconciliation",
+    "dark": "Avoidance",
+    "symbolic_spread": [14, 13]
+  },
+  "Sovereignty": {
+    "chakra": "Solar Plexus",
+    "light": "Agency",
+    "dark": "Control",
+    "symbolic_spread": [15, 14]
+  },
+  "Energy": {
+    "chakra": "Root",
+    "light": "Vitality",
+    "dark": "Burnout",
+    "symbolic_spread": [16, 15]
+  },
+  "Trustworthiness": {
+    "chakra": "Heart",
+    "light": "Reliability",
+    "dark": "Deception",
+    "symbolic_spread": [17, 16]
+  },
+  "Empathy": {
+    "chakra": "Throat",
+    "light": "Compassion",
+    "dark": "Overidentification",
+    "symbolic_spread": [18, 17]
+  },
+  "Presence": {
+    "chakra": "Crown",
+    "light": "Mindfulness",
+    "dark": "Distraction",
+    "symbolic_spread": [19, 18]
+  },
+  "Perspective Shift": {
+    "chakra": "Third Eye",
+    "light": "Open-mindedness",
+    "dark": "Rigidity",
+    "symbolic_spread": [20, 19]
+  },
+  "Boundaries": {
+    "chakra": "Solar Plexus",
+    "light": "Self-Respect",
+    "dark": "Walls",
+    "symbolic_spread": [21, 20]
+  },
+  "Playfulness": {
+    "chakra": "Sacral",
+    "light": "Joy",
+    "dark": "Frivolity",
+    "symbolic_spread": [22, 21]
+  },
+  "Creativity": {
+    "chakra": "Throat",
+    "light": "Expression",
+    "dark": "Suppression",
+    "symbolic_spread": [23, 22]
+  },
+  "Resilience": {
+    "chakra": "Root",
+    "light": "Endurance",
+    "dark": "Stubbornness",
+    "symbolic_spread": [24, 23]
+  },
+  "Curiosity": {
+    "chakra": "Third Eye",
+    "light": "Learning",
+    "dark": "Distraction",
+    "symbolic_spread": [25, 24]
+  },
+  "Intuition": {
+    "chakra": "Third Eye",
+    "light": "Inner Knowing",
+    "dark": "Paranoia",
+    "symbolic_spread": [26, 25]
+  },
+  "Forgiveness": {
+    "chakra": "Heart",
+    "light": "Release",
+    "dark": "Resentment",
+    "symbolic_spread": [27, 26]
+  },
+  "Discipline": {
+    "chakra": "Solar Plexus",
+    "light": "Focus",
+    "dark": "Rigidity",
+    "symbolic_spread": [28, 27]
+  },
+  "Surrender": {
+    "chakra": "Crown",
+    "light": "Trust",
+    "dark": "Helplessness",
+    "symbolic_spread": [29, 28]
+  },
+  "Healing": {
+    "chakra": "Heart",
+    "light": "Wholeness",
+    "dark": "Avoidance of Pain",
+    "symbolic_spread": [30, 29]
+  },
+  "Stability": {
+    "chakra": "Root",
+    "light": "Groundedness",
+    "dark": "Complacency",
+    "symbolic_spread": [31, 30]
+  },
+  "Innovation": {
+    "chakra": "Throat",
+    "light": "Originality",
+    "dark": "Recklessness",
+    "symbolic_spread": [32, 31]
+  },
+  "Collaboration": {
+    "chakra": "Heart",
+    "light": "Synergy",
+    "dark": "Co-dependence",
+    "symbolic_spread": [33, 32]
+  },
+  "Vision": {
+    "chakra": "Third Eye",
+    "light": "Foresight",
+    "dark": "Delusion",
+    "symbolic_spread": [34, 33]
+  },
+  "Compassion": {
+    "chakra": "Heart",
+    "light": "Kindness",
+    "dark": "Martyrdom",
+    "symbolic_spread": [35, 34]
+  },
+  "Leadership": {
+    "chakra": "Solar Plexus",
+    "light": "Guidance",
+    "dark": "Domination",
+    "symbolic_spread": [36, 35]
+  },
+  "Focus": {
+    "chakra": "Third Eye",
+    "light": "Concentration",
+    "dark": "Tunnel Vision",
+    "symbolic_spread": [37, 36]
+  },
+  "Balance": {
+    "chakra": "Sacral",
+    "light": "Equilibrium",
+    "dark": "Stagnation",
+    "symbolic_spread": [38, 37]
+  },
+  "Rebirth": {
+    "chakra": "Root",
+    "light": "Renewal",
+    "dark": "Resistance to Change",
+    "symbolic_spread": [39, 38]
+  },
+  "Connection": {
+    "chakra": "Heart",
+    "light": "Belonging",
+    "dark": "Overattachment",
+    "symbolic_spread": [40, 39]
+  },
+  "Freedom": {
+    "chakra": "Solar Plexus",
+    "light": "Autonomy",
+    "dark": "Rebellion",
+    "symbolic_spread": [41, 40]
+  },
+  "Harmony": {
+    "chakra": "Heart",
+    "light": "Alignment",
+    "dark": "People-Pleasing",
+    "symbolic_spread": [42, 41]
+  },
+  "Simplicity": {
+    "chakra": "Crown",
+    "light": "Clarity",
+    "dark": "Over-Simplification",
+    "symbolic_spread": [43, 42]
+  },
+  "Patience": {
+    "chakra": "Root",
+    "light": "Calm",
+    "dark": "Passivity",
+    "symbolic_spread": [44, 43]
+  },
+  "Tenacity": {
+    "chakra": "Solar Plexus",
+    "light": "Persistence",
+    "dark": "Obstinacy",
+    "symbolic_spread": [45, 44]
+  },
+  "Joy": {
+    "chakra": "Sacral",
+    "light": "Delight",
+    "dark": "Hedonism",
+    "symbolic_spread": [46, 45]
+  },
+  "Sacrifice": {
+    "chakra": "Heart",
+    "light": "Selflessness",
+    "dark": "Resentment",
+    "symbolic_spread": [47, 46]
+  },
+  "Faith": {
+    "chakra": "Crown",
+    "light": "Trust in Process",
+    "dark": "Blind Belief",
+    "symbolic_spread": [48, 47]
+  },
+  "Wisdom of the Body": {
+    "chakra": "Root",
+    "light": "Embodiment",
+    "dark": "Neglect",
+    "symbolic_spread": [49, 48]
+  },
+  "Presence of Mind": {
+    "chakra": "Third Eye",
+    "light": "Awareness",
+    "dark": "Overthinking",
+    "symbolic_spread": [50, 49]
+  },
+  "Gratitude": {
+    "chakra": "Heart",
+    "light": "Appreciation",
+    "dark": "Complacency",
+    "symbolic_spread": [51, 50]
+  },
+  "Honesty": {
+    "chakra": "Throat",
+    "light": "Transparency",
+    "dark": "Brutality",
+    "symbolic_spread": [52, 51]
+  },
+  "Healing Through Play": {
+    "chakra": "Sacral",
+    "light": "Joyful Release",
+    "dark": "Escapism",
+    "symbolic_spread": [53, 52]
+  },
+  "Reflection": {
+    "chakra": "Crown",
+    "light": "Insight",
+    "dark": "Rumination",
+    "symbolic_spread": [54, 53]
+  },
+  "Awareness": {
+    "chakra": "Third Eye",
+    "light": "Consciousness",
+    "dark": "Hypervigilance",
+    "symbolic_spread": [55, 54]
+  },
+  "Sustainability": {
+    "chakra": "Root",
+    "light": "Longevity",
+    "dark": "Resistance to Growth",
+    "symbolic_spread": [56, 55]
+  },
+  "Order": {
+    "chakra": "Solar Plexus",
+    "light": "Structure",
+    "dark": "Rigidity",
+    "symbolic_spread": [57, 56]
+  },
+  "Flexibility": {
+    "chakra": "Sacral",
+    "light": "Adaptability",
+    "dark": "Unreliability",
+    "symbolic_spread": [58, 57]
+  },
+  "Mindfulness": {
+    "chakra": "Crown",
+    "light": "Presence",
+    "dark": "Distraction",
+    "symbolic_spread": [59, 58]
+  },
+  "Purpose": {
+    "chakra": "Crown",
+    "light": "Alignment",
+    "dark": "Obsession",
+    "symbolic_spread": [60, 59]
+  },
+  "Altruism": {
+    "chakra": "Heart",
+    "light": "Generosity",
+    "dark": "Self-Abandonment",
+    "symbolic_spread": [61, 60]
+  },
+  "Self-Compassion": {
+    "chakra": "Heart",
+    "light": "Kindness to Self",
+    "dark": "Self-Indulgence",
+    "symbolic_spread": [62, 61]
+  },
+  "Equanimity": {
+    "chakra": "Crown",
+    "light": "Calm Balance",
+    "dark": "Apathy",
+    "symbolic_spread": [63, 62]
+  },
+  "Determination": {
+    "chakra": "Solar Plexus",
+    "light": "Resolve",
+    "dark": "Obsession",
+    "symbolic_spread": [64, 63]
+  },
+  "Connection to Nature": {
+    "chakra": "Root",
+    "light": "Harmony with Earth",
+    "dark": "Disconnection",
+    "symbolic_spread": [65, 64]
+  },
+  "Transformation": {
+    "chakra": "Sacral",
+    "light": "Growth",
+    "dark": "Avoidance",
+    "symbolic_spread": [66, 65]
+  },
+  "Faith in Others": {
+    "chakra": "Heart",
+    "light": "Trust",
+    "dark": "Gullibility",
+    "symbolic_spread": [67, 66]
+  },
+  "Wisdom of Silence": {
+    "chakra": "Throat",
+    "light": "Listening",
+    "dark": "Suppression",
+    "symbolic_spread": [68, 67]
+  },
+  "Initiative": {
+    "chakra": "Solar Plexus",
+    "light": "Proactivity",
+    "dark": "Impulsivity",
+    "symbolic_spread": [69, 68]
+  },
+  "Emotional Regulation": {
+    "chakra": "Sacral",
+    "light": "Balance",
+    "dark": "Suppression",
+    "symbolic_spread": [70, 69]
+  },
+  "Sacredness": {
+    "chakra": "Crown",
+    "light": "Reverence",
+    "dark": "Fanaticism",
+    "symbolic_spread": [71, 70]
+  },
+  "Liberation": {
+    "chakra": "Crown",
+    "light": "Freedom",
+    "dark": "Isolation",
+    "symbolic_spread": [72, 71]
+  }
+}

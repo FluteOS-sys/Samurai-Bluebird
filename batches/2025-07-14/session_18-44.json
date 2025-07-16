@@ -1,0 +1,8 @@
+{
+    "active_window": "UnknownWindow",
+    "keystroke_burst": 0,
+    "screenshot_text": "\u00a9} =  B samurai-Biuebird Y Version control v\n\n\u00a9 Project v\n\n> Bagents\n=) \u00a5 Deore\n\nB kernel.py\n\u00ae resonance_logger.py\n\u00ae staging_area.py\n\nv Bethics\n\u00a9 krishna.py\n\u00ae pillars.py\n\n> \u00a9 frameworks\n\nv Bio\n\u00ae activity_tracker.py\n\u00ae feathers.py\nB image_analysis.py\n\n\u00ae ocr.py\n> \u00a9 mock.mode @\n> Dsymbolic\n> Dtests\n> Butils\nMJ README.md\n8 requirements.txt\nTerminal \u2014_Local + v\n& \u2014_\u2014\u2014_\n>>> dummy = np.zeros((10, 10, 3), dtype=np.uint8)\n\u00ae \u00bb>? converted = cv2.cvtColor(dummy, cv2.COLOR_RGB2BGR)\n>>> print(\"cvtColor works!\")\ncvtColor works!\n>>> AZ\n\u00a9 .venv) Ps c:\\Users\\Samurai-Bluebird> python -n samurai_bluebird_custos.core. kernel\n\nSamurai Bluebird Custos prototype running...\n\neo\n\n\u00a9 Samurai-Bluebird > samurai_bluebird_custos > io > @ feathers.py\n\n= requirements.txt\n\ndef\n\ndef\n\ndef\n\nCurrent Filey [> <& @aad gs\n\n\u00ae kernel.py \u00ae feathers.py\n\ncapture_keystroke_bursts(duration=S) :\n\nreturn count[0]\n\ncapture_screenshot_text():\n\ntry\nscreenshot = ImageGrab.grab()\nn(np.array(screenshot), cv2.C!\n\nscreenshot_cv = cv2.\n\ntext = pytesseract.image_to_string(screenshot_cv)\nreturn text.strip()\nexcept Exception as e:\nprint(#\" A Screenshot OCR failed: {e}\")\nreturn \"[Screenshot OCR unavailable)\"\n\nassemble_feather_input():\n\ninput_data = {\n\n52:46 CRLF UTF-8 4spaces Python 3.10 (Samurai-Bluebird) Gf)\n\n6:44 PM",
+    "cpu_usage": 9.4,
+    "memory_usage": 87.9,
+    "timestamp": "2025-07-14 18:44:20"
+}

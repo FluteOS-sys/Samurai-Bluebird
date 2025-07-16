@@ -1,0 +1,23 @@
+{
+    "version": "V2",
+    "created": "2025-07-14T14:05:00",
+    "metrics_weights": {
+        "Trust Dynamics": 0.85,
+        "Emotional Weather": 0.90,
+        "Narrative Coherence": 0.80,
+        "Relational Integrity": 0.75,
+        "Creativity Flow": 0.70,
+        "Resilience Index": 0.65,
+        "Alignment Drift": 0.60,
+        "Communication Clarity": 0.78,
+        "Systemic Harmony": 0.88,
+        "Ethical Fidelity": 0.95,
+        "Transformation Potential": 0.72,
+        "Leadership Resonance": 0.83
+    },
+    "meta": {
+        "description": "Default weighting for 12 Metrics V2 alignment.",
+        "author": "Vincent & Mr. Harley",
+        "notes": "Used as baseline for Feathers, Blue Box, and AMS Core alignment scoring."
+    }
+}

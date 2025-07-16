@@ -1,0 +1,23 @@
+[
+  {
+    "active_window": "Code Editor",
+    "cpu_usage": 15,
+    "memory_usage": 48,
+    "screenshot_text": "Refactoring kernel.py",
+    "timestamp": "2025-07-15 09:00:00"
+  },
+  {
+    "active_window": "Browser",
+    "cpu_usage": 22,
+    "memory_usage": 52,
+    "screenshot_text": "Researching symbolic neurons",
+    "timestamp": "2025-07-15 09:15:00"
+  },
+  {
+    "active_window": "Terminal",
+    "cpu_usage": 10,
+    "memory_usage": 45,
+    "screenshot_text": "Running unit tests",
+    "timestamp": "2025-07-15 09:30:00"
+  }
+]

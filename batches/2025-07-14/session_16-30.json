@@ -1,0 +1,22 @@
+{
+    "timestamp": "2025-07-14T16:30:00",
+    "feathers_capture": {
+        "active_window": "VSCode - Samurai Bluebird",
+        "keystrokes": 472,
+        "screenshot_analysis": {
+            "detected_text": ["12 Pillars Ethical Filter", "Resonance Logger"],
+            "image_emotions": ["focused", "calm"]
+        },
+        "app_activity": ["PyCharm", "Browser", "Terminal"]
+    },
+    "symbolic_tags": {
+        "sovereignties": ["Connection"],
+        "chakras": ["Throat"],
+        "context_domains": ["Leadership"]
+    },
+    "meta": {
+        "emotional_resonance": ["focused", "methodical"],
+        "batch_index": 5,
+        "notes": "Seed batch for system training. Simulated passive input."
+    }
+}

@@ -1,0 +1,35 @@
+{
+    "version": "v001",
+    "created": "2025-07-14T14:00:00",
+    "symbolic_neurons": [
+        {
+            "id": "neuron_001",
+            "tags": ["Connection", "Creativity", "Trust"],
+            "chakra": "Heart",
+            "resonance_score": 0.72,
+            "last_activated": "2025-07-13T18:45:00",
+            "notes": "Seeded symbolic neuron for initial pattern recognition."
+        },
+        {
+            "id": "neuron_002",
+            "tags": ["Expression", "Foundations"],
+            "chakra": "Throat",
+            "resonance_score": 0.65,
+            "last_activated": "2025-07-13T19:15:00",
+            "notes": "Supports narrative formation in early batches."
+        },
+        {
+            "id": "neuron_003",
+            "tags": ["Adaptability", "Growth"],
+            "chakra": "Solar Plexus",
+            "resonance_score": 0.81,
+            "last_activated": "2025-07-13T20:00:00",
+            "notes": "Focused on resilience and momentum."
+        }
+    ],
+    "meta": {
+        "total_neurons": 3,
+        "seeded_for": "initial AMS Core training",
+        "author": "Vincent & Mr. Harley"
+    }
+}

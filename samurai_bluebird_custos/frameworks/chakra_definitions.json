@@ -1,0 +1,51 @@
+{
+  "Root": {
+    "index": 1,
+    "qualities": ["Stability", "Grounding", "Survival"],
+    "color": "Red",
+    "element": "Earth",
+    "theme": "Security & Foundation"
+  },
+  "Sacral": {
+    "index": 2,
+    "qualities": ["Creativity", "Emotion", "Flow"],
+    "color": "Orange",
+    "element": "Water",
+    "theme": "Pleasure & Relationships"
+  },
+  "Solar Plexus": {
+    "index": 3,
+    "qualities": ["Power", "Will", "Identity"],
+    "color": "Yellow",
+    "element": "Fire",
+    "theme": "Confidence & Action"
+  },
+  "Heart": {
+    "index": 4,
+    "qualities": ["Love", "Connection", "Compassion"],
+    "color": "Green",
+    "element": "Air",
+    "theme": "Love & Balance"
+  },
+  "Throat": {
+    "index": 5,
+    "qualities": ["Communication", "Expression", "Truth"],
+    "color": "Blue",
+    "element": "Sound",
+    "theme": "Voice & Expression"
+  },
+  "Third Eye": {
+    "index": 6,
+    "qualities": ["Intuition", "Clarity", "Insight"],
+    "color": "Indigo",
+    "element": "Light",
+    "theme": "Vision & Wisdom"
+  },
+  "Crown": {
+    "index": 7,
+    "qualities": ["Transcendence", "Awareness", "Unity"],
+    "color": "Violet",
+    "element": "Thought",
+    "theme": "Spirituality & Oneness"
+  }
+}
