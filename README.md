@@ -1,59 +1,26 @@
-# 🏯 Samurai Bluebird Custos
+# 🪶 Samurai Bluebird Custos Vagans
 
-*A cognitive nervous system for humanity.*
+## 🌌 Overview
+Samurai Bluebird Custos Vagans is a cognitive nervous system for organizations—a socio-emotional AI toolkit designed to map team dynamics, morale, and ethical health in real time while preserving privacy.  
 
----
+At its core, it captures passive inputs (screenshots, app usage, keystrokes), processes them through a **Resonance Lattice**—a dynamic map of meaning—and produces multi-perspective resonance logs and meta reflections.  
 
-## 🌌 What Is Samurai Bluebird Custos?
-
-Samurai Bluebird Custos is a modular, local-first AI system designed to passively observe digital environments, apply symbolic cognition, and generate narrative reflections about user activity.  
-
-This prototype:
-✅ Captures passive inputs (active windows, typing bursts, screenshots)  
-✅ Processes them through symbolic frameworks (72 Sovereignties, Chakras, Context Domains)  
-✅ Writes four types of logs every 30 minutes:
-- `input_resonance_log.txt` – Raw passive inputs + symbolic tags
-- `dashboard_log.txt` – Narrative reflections from Tri-Agent Multi-Mind
-- `output_resonance_log.txt` – Reasoning about reasoning (12 Pillars ethical check)
-- `witness_log.txt` – Krishna meta-observer oversight
-✅ Includes meta-alerts for critical patterns detected by Krishna
+This system evolves over time like a living ecosystem, helping leaders and teams navigate complex emotional landscapes.
 
 ---
 
-## 📦 Folder Structure
-### Samurai-Bluebird/
-├── logs/
-│ ├── yyyy-mm-dd/
-│ ├── input_resonance_log.txt
-│ ├── dashboard_log.txt
-│ ├── output_resonance_log.txt
-│ ├── witness_log.txt
-│ ├── meta_alert.txt
-├── batches/
-│ ├── yyyy-mm-dd/
-│ ├── session_14-30.json
-│ ├── ...
-├── memory/
-│ ├── symbolic_neurons_v001.json
-│ ├── metrics_weights.json
-│ ├── krishna_meta.json
-├── samurai_bluebird_custos/
-│ ├── core/
-│ ├── io/
-│ ├── frameworks/
-│ ├── agents/
-│ ├── ethics/
-│ ├── symbolic/
-│ ├── utils/
-│ ├── tests/
-│ ├── mock_mode/
-├── requirements.txt
-├── README.md
-├── setup.py
+## ✨ What's New in v0.2.0 – Resonance Genesis
+- 🌱 **Resonance Lattice:** Hierarchical memory graph storing symbolic neurons with emotional and archetypal metadata.
+- 🧠 **Inductive/Deductive Reasoning:** Dual-phase analysis for novelty detection and familiarity consolidation.
+- 🪐 **Planetary Metadata:** Ephemeris signatures timestamp each memory node for temporal orientation.
+- 👁 **Krishna Meta-Observer:** Self-reflection via lattice state and ethical pattern monitoring.
+- 📝 **Tri-Agent Multi-Mind:** Archetypal narrative generation from Resonance Lattice.
 
-## 🚀 Installation
+---
 
-### 1. Clone the repository
+## 🏃 Quickstart
 ```bash
-git clone https://github.com/vincentcricelli/samurai-bluebird-custos.git
-cd samurai-bluebird-custos
+git clone https://github.com/yourusername/Samurai-Bluebird-Custos-Vagans.git
+cd Samurai-Bluebird-Custos-Vagans
+python3 -m pip install -r requirements.txt
+python3 samurai_bluebird_custos/mock_mode/simulated_workday.py

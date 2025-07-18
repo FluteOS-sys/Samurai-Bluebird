@@ -1,17 +1,14 @@
 # samurai_bluebird_custos/tests/test_agents.py
 
-from samurai_bluebird_custos.agents.ams_core import AMSCore
+from samurai_bluebird_custos.agents.tri_agent import TriAgent
 
-def test_ams_core_processing():
-    """Test AMSCore batch processing."""
-    ams = AMSCore()
+def test_tri_agent_reason_over_batch():
+    tri_agent = TriAgent()
     dummy_input = {
-        "tags": ["Trust", "Clarity"],
-        "weights": {"Trust": 1.0, "Clarity": 1.2}
+        "tags": ["Innovation", "Trust", "Compassion"],
+        "weights": {"Innovation": 1.1, "Trust": 1.0, "Compassion": 1.3}
     }
-    try:
-        result = ams.process_batch(dummy_input)
-        assert "combined_data" in result
-        print("✅ AMSCore processing test passed.")
-    except Exception as e:
-        print(f"❌ AMSCore processing test failed: {e}")
+    result = tri_agent.reason_over_batch(dummy_input)
+    assert "narrative" in result, "Narrative missing in Tri-Agent output"
+    assert "ams_output" in result, "AMS output missing in Tri-Agent result"
+    print("✅ Tri-Agent reasoning test passed.")

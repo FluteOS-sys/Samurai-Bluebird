@@ -1,52 +1,92 @@
-# samurai_bluebird_custos/agents/ams_core.py
+# samurai_bluebird_custos/core/ams_core.py
 
 from typing import Dict, Any
 import json
 import time
 from samurai_bluebird_custos.frameworks.blue_box import BlueBox
-from samurai_bluebird_custos.symbolic.symbolic_neurons import SymbolicNeurons
+from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
 from samurai_bluebird_custos.ethics.pillars import SocioEmotionalFilter
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class AMSCore:
-    """Active Meta-Synthesis Core - enhanced with socio-emotional alignment."""
+    """Active Meta-Synthesis Core - Resonance Genesis v0.2.0 with dual reasoning and lattice evolution."""
 
     def __init__(self):
         self.blue_box = BlueBox()
-        self.symbolic_neurons = SymbolicNeurons("memory/symbolic_neurons_v001.json")
+        self.lattice = ResonanceLattice(lattice_file="memory/resonance_lattice.json")
         self.se_filter = SocioEmotionalFilter()
 
+    def inductive_reasoning(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Perform inductive reasoning (outside-in pattern recognition).
+        """
+        inductive_tags = {}
+        for category, entries in batch_data.items():
+            inductive_tags[category] = {}
+            for entry_id, content in entries.items():
+                # Mock: Generate high-level tags
+                inductive_tags[category][entry_id] = {
+                    "valence": "neutral",
+                    "familiarity": 0.2,
+                    "novelty": 0.8,
+                    "narrative_hooks": ["Emergent Pattern"]
+                }
+        print("🔮 Inductive reasoning completed.")
+        return inductive_tags
+
+    def deductive_reasoning(self, batch_data: Dict[str, Any], inductive_tags: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Perform deductive reasoning (inside-out detailed analysis) with inductive context.
+        """
+        deductive_results = {}
+        for category, entries in batch_data.items():
+            deductive_results[category] = {}
+            for entry_id, content in entries.items():
+                previous_tags = inductive_tags[category].get(entry_id, {})
+                deductive_results[category][entry_id] = {
+                    "valence": previous_tags.get("valence", "neutral"),
+                    "familiarity": round(previous_tags.get("familiarity", 0.2) + 0.3, 3),
+                    "novelty": round(previous_tags.get("novelty", 0.8) - 0.3, 3),
+                    "narrative_hooks": previous_tags.get("narrative_hooks", [])
+                }
+        print("🧠 Deductive reasoning completed.")
+        return deductive_results
+
     def process_batch(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
-        print("⚡ AMSCore: Processing new batch with socio-emotional alignment...")
+        print("⚡ AMSCore: Processing new batch with Resonance Genesis...")
 
-        # Step 1: Get resonance lattice from Blue Box
-        resonance_lattice = self.blue_box.process_input(input_data)
+        # Step 1: Get resonance lattice seed from Blue Box
+        resonance_seed = self.blue_box.process_input(input_data)
 
-        # Step 2: Pass through SocioEmotionalFilter
-        socio_emotional_view = self.se_filter.run_all(resonance_lattice)
+        # Step 2: Inductive reasoning (novelty growth)
+        inductive_tags = self.inductive_reasoning(resonance_seed)
 
-        # Step 3: Combine results
+        # Step 3: Deductive reasoning (familiarity refinement)
+        deductive_results = self.deductive_reasoning(resonance_seed, inductive_tags)
+
+        # Step 4: Pass through SocioEmotionalFilter
+        socio_emotional_view = self.se_filter.run_all(deductive_results)
+
+        # Step 5: Update Resonance Lattice
+        self.lattice.update_lattice_from_batch(deductive_results)
+
+        # Step 6: Combine results
         combined_data = {
-            "resonance_lattice": resonance_lattice,
+            "resonance_seed": resonance_seed,
+            "inductive_tags": inductive_tags,
+            "deductive_results": deductive_results,
             "socio_emotional": socio_emotional_view,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
         }
 
-        # Step 4: Update symbolic neurons
-        neuron_updates = self.symbolic_neurons.update_neurons(combined_data)
-
-        # Step 5: Write to input_resonance_log.txt
-        reasoning_output = {
-            "combined_data": combined_data,
-            "symbolic_neuron_updates": neuron_updates
-        }
+        # Step 7: Write to input_resonance_log.txt
         with open("logs/input_resonance_log.txt", "w") as f:
-            json.dump(reasoning_output, f, indent=4)
+            json.dump(combined_data, f, indent=4)
         print("📝 input_resonance_log.txt updated.")
 
-        # Step 6: Update resonance logger
-        log_all(reasoning_output, meta_notes="AMS Core socio-emotional batch processed.")
-        return reasoning_output
+        # Step 8: Update resonance logger
+        log_all(combined_data, meta_notes="AMS Core Resonance Genesis batch processed.")
+        return combined_data
 
 if __name__ == "__main__":
     ams = AMSCore()
@@ -55,4 +95,4 @@ if __name__ == "__main__":
         "weights": {"Compassion": 1.2, "Trust": 1.0, "Innovation": 1.1}
     }
     result = ams.process_batch(dummy_input)
-    print("AMS Core Result:", result)
+    print("AMS Core Result:", json.dumps(result, indent=4))

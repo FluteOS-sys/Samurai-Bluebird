@@ -6,3 +6,4 @@ psutil
 numpy
 pywin32; platform_system=="Windows"
 pynput
+pytz
