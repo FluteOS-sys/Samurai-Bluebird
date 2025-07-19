@@ -1,36 +1,45 @@
+# samurai_bluebird_custos/core/resonance_logger.py
+
+import json
+from typing import Dict, Any
 import os
 from datetime import datetime
+import pytz
 
-LOG_DIR = "logs"
+class ResonanceLogger:
+    """
+    Resonance Logger – Resonance Genesis v0.2.1
+    Centralized logger for all resonance-based outputs.
+    """
 
-def ensure_log_folder():
-    """
-    Ensure today's yyyy-mm-dd folder exists in logs directory.
-    """
-    today = datetime.now().strftime("%Y-%m-%d")
-    folder_path = os.path.join(LOG_DIR, today)
-    os.makedirs(folder_path, exist_ok=True)
-    return folder_path
+    def __init__(self, logs_dir: str = "logs", timezone: str = "America/Detroit"):
+        self.logs_dir = logs_dir
+        self.timezone = pytz.timezone(timezone)
 
-def write_log(filename, content):
-    """
-    Write content to a log file.
-    """
-    folder_path = ensure_log_folder()
-    file_path = os.path.join(folder_path, filename)
-    timestamp = datetime.now().strftime("[%Y-%m-%d %H:%M:%S]")
-    with open(file_path, "a") as f:
-        f.write(f"{timestamp} {content}\n")
-    print(f"📜 Log updated: {file_path}")
+    def log_event(self, log_name: str, content: Dict[str, Any], meta_notes: str = ""):
+        """
+        Logs a structured event into the specified log file.
+        """
+        timestamp = self._current_time()
+        log_entry = {
+            "timestamp": timestamp,
+            "meta_notes": meta_notes,
+            "content": content
+        }
 
-def log_all(feather_input, meta_notes=""):
-    """
-    Write all 4 logs (input, dashboard, output, witness) and meta alerts.
-    """
-    write_log("input_resonance_log.txt", f"Passive Input: {feather_input}")
-    write_log("dashboard_log.txt", "Tri-Agent: Narrative reflection placeholder.")
-    write_log("output_resonance_log.txt", "12 Pillars: Reasoning alignment check placeholder.")
-    write_log("witness_log.txt", f"Krishna: Oversight entry. {meta_notes}")
+        log_path = os.path.join(self.logs_dir, log_name)
+        with open(log_path, 'a') as f:
+            f.write(json.dumps(log_entry, indent=4) + "\n")
+        print(f"📡 Resonance Logger: Logged event to {log_name}")
 
-    if "critical" in meta_notes.lower():
-        write_log("meta_alert.txt", "⚠️ Meta Alert: Critical pattern detected.")
+    def _current_time(self) -> str:
+        return datetime.now(self.timezone).strftime('%Y-%m-%d %H:%M:%S %Z')
+
+def log_all(data: Dict[str, Any], meta_notes: str = ""):
+    """
+    Convenience function to log to multiple resonance logs.
+    """
+    logger = ResonanceLogger()
+    logger.log_event("input_resonance_log.txt", data, meta_notes=meta_notes)
+    logger.log_event("dashboard_log.txt", data, meta_notes=meta_notes)
+    logger.log_event("witness_log.txt", data, meta_notes=meta_notes)

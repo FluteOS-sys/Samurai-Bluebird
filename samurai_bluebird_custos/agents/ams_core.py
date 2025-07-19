@@ -1,7 +1,8 @@
-# samurai_bluebird_custos/core/ams_core.py
+# samurai_bluebird_custos/agents/ams_core.py
 
 from typing import Dict, Any
 import json
+import os
 import time
 from samurai_bluebird_custos.frameworks.blue_box import BlueBox
 from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
@@ -9,84 +10,66 @@ from samurai_bluebird_custos.ethics.pillars import SocioEmotionalFilter
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class AMSCore:
-    """Active Meta-Synthesis Core - Resonance Genesis v0.2.0 with dual reasoning and lattice evolution."""
+    """Active Meta-Synthesis Core – Resonance Genesis v0.2.1 with redundancy resonance and orthogonal updates."""
 
     def __init__(self):
+        # Ensure memory directory exists
+        memory_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "memory")
+        os.makedirs(memory_dir, exist_ok=True)
+
         self.blue_box = BlueBox()
         self.lattice = ResonanceLattice(lattice_file="memory/resonance_lattice.json")
         self.se_filter = SocioEmotionalFilter()
 
     def inductive_reasoning(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Perform inductive reasoning (outside-in pattern recognition).
+        Perform inductive reasoning (recognize redundancy and environmental resonance).
         """
-        inductive_tags = {}
-        for category, entries in batch_data.items():
-            inductive_tags[category] = {}
-            for entry_id, content in entries.items():
-                # Mock: Generate high-level tags
-                inductive_tags[category][entry_id] = {
-                    "valence": "neutral",
-                    "familiarity": 0.2,
-                    "novelty": 0.8,
-                    "narrative_hooks": ["Emergent Pattern"]
-                }
-        print("🔮 Inductive reasoning completed.")
-        return inductive_tags
+        print("🔄 Inductive reasoning (resonance) completed.")
+        processed_data = self.blue_box.process_input(batch_data)
+        return {"ResonanceProcessed": processed_data}
 
-    def deductive_reasoning(self, batch_data: Dict[str, Any], inductive_tags: Dict[str, Any]) -> Dict[str, Any]:
+    def deductive_reasoning(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Perform deductive reasoning (inside-out detailed analysis) with inductive context.
+        Perform deductive reasoning (orthogonal updates).
         """
-        deductive_results = {}
-        for category, entries in batch_data.items():
-            deductive_results[category] = {}
-            for entry_id, content in entries.items():
-                previous_tags = inductive_tags[category].get(entry_id, {})
-                deductive_results[category][entry_id] = {
-                    "valence": previous_tags.get("valence", "neutral"),
-                    "familiarity": round(previous_tags.get("familiarity", 0.2) + 0.3, 3),
-                    "novelty": round(previous_tags.get("novelty", 0.8) - 0.3, 3),
-                    "narrative_hooks": previous_tags.get("narrative_hooks", [])
-                }
-        print("🧠 Deductive reasoning completed.")
-        return deductive_results
+        print("🧠 Deductive reasoning (orthogonal updates) completed.")
+        # For simplicity, using same processed data
+        return batch_data
 
     def process_batch(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
-        print("⚡ AMSCore: Processing new batch with Resonance Genesis...")
+        print("⚡ AMSCore: Processing new batch with Resonance Flow...")
 
-        # Step 1: Get resonance lattice seed from Blue Box
-        resonance_seed = self.blue_box.process_input(input_data)
+        # Step 1: Inductive reasoning (resonance)
+        inductive_results = self.inductive_reasoning(input_data)
 
-        # Step 2: Inductive reasoning (novelty growth)
-        inductive_tags = self.inductive_reasoning(resonance_seed)
+        # Step 2: Deductive reasoning (orthogonal updates)
+        deductive_results = self.deductive_reasoning(inductive_results)
 
-        # Step 3: Deductive reasoning (familiarity refinement)
-        deductive_results = self.deductive_reasoning(resonance_seed, inductive_tags)
-
-        # Step 4: Pass through SocioEmotionalFilter
-        socio_emotional_view = self.se_filter.run_all(deductive_results)
-
-        # Step 5: Update Resonance Lattice
+        # Step 3: Update Resonance Lattice
         self.lattice.update_lattice_from_batch(deductive_results)
 
-        # Step 6: Combine results
+        # Step 4: Socio-Emotional Filter
+        socio_emotional_view = self.se_filter.run_all(deductive_results)
+
+        # Step 5: Combine results
         combined_data = {
-            "resonance_seed": resonance_seed,
-            "inductive_tags": inductive_tags,
-            "deductive_results": deductive_results,
+            "resonance_lattice": self.lattice.get_snapshot_json(),
             "socio_emotional": socio_emotional_view,
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
         }
 
-        # Step 7: Write to input_resonance_log.txt
+        # Step 6: Write to input_resonance_log.txt
+        reasoning_output = {
+            "combined_data": combined_data
+        }
         with open("logs/input_resonance_log.txt", "w") as f:
-            json.dump(combined_data, f, indent=4)
+            json.dump(reasoning_output, f, indent=4)
         print("📝 input_resonance_log.txt updated.")
 
-        # Step 8: Update resonance logger
-        log_all(combined_data, meta_notes="AMS Core Resonance Genesis batch processed.")
-        return combined_data
+        # Step 7: Update resonance logger
+        log_all(reasoning_output, meta_notes="AMS Core processed batch with resonance flow.")
+        return reasoning_output
 
 if __name__ == "__main__":
     ams = AMSCore()
@@ -95,4 +78,4 @@ if __name__ == "__main__":
         "weights": {"Compassion": 1.2, "Trust": 1.0, "Innovation": 1.1}
     }
     result = ams.process_batch(dummy_input)
-    print("AMS Core Result:", json.dumps(result, indent=4))
+    print("AMS Core Result:", result)

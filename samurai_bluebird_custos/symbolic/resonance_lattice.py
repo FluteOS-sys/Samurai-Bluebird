@@ -1,4 +1,8 @@
+# samurai_bluebird_custos/symbolic/resonance_lattice.py
+
 import json
+import os
+import time
 from typing import Dict, Any, List
 from datetime import datetime
 import pytz
@@ -6,13 +10,14 @@ from samurai_bluebird_custos.utils.planetary_metadata import get_planetary_posit
 
 class ResonanceLattice:
     """
-    The Resonance Lattice represents the evolving symbolic memory map of Samurai Bluebird.
-    It stores symbolic neurons as nodes with valence, familiarity, novelty, narrative hooks,
-    and planetary metadata for temporal orientation.
+    Resonance Lattice – evolving symbolic memory map of Samurai Bluebird.
+    Stores symbolic neurons as nodes with valence, familiarity, novelty, narrative hooks, and planetary metadata.
     """
 
     def __init__(self, lattice_file: str, timezone: str = "America/Detroit"):
-        self.lattice_file = lattice_file
+        # Ensure absolute path to memory directory
+        project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        self.lattice_file = os.path.join(project_root, lattice_file)
         self.timezone = pytz.timezone(timezone)
         self.lattice = self._load_lattice()
 
@@ -28,9 +33,6 @@ class ResonanceLattice:
         """
         Update the resonance lattice based on processed batch metadata.
         """
-        current_timestamp = self._current_time()
-        planetary_signature = get_planetary_positions(current_timestamp)
-
         for category, entries in batch_metadata.items():
             if category not in self.lattice:
                 self.lattice[category] = {}
@@ -42,8 +44,8 @@ class ResonanceLattice:
                         "familiarity": data.get("familiarity", 0.0),
                         "novelty": data.get("novelty", 1.0),
                         "narrative_hooks": data.get("narrative_hooks", []),
-                        "planetary_metadata": planetary_signature,
-                        "last_updated": current_timestamp
+                        "planetary_metadata": data.get("planetary_metadata", {}),
+                        "last_updated": self._current_time()
                     }
                 else:
                     # Update existing node
@@ -52,16 +54,22 @@ class ResonanceLattice:
                     node["novelty"] = round((node["novelty"] + data.get("novelty", 0.5)) / 2, 3)
                     node["valence"] = data.get("valence", node["valence"])
                     node["narrative_hooks"] = list(set(node["narrative_hooks"] + data.get("narrative_hooks", [])))
-                    node["planetary_metadata"] = planetary_signature
-                    node["last_updated"] = current_timestamp
+                    node["planetary_metadata"] = data.get("planetary_metadata", node["planetary_metadata"])
+                    node["last_updated"] = self._current_time()
 
         self._save_lattice()
         print("🌌 Resonance lattice updated.")
 
     def get_snapshot_json(self) -> Dict[str, Any]:
+        """
+        Return the current state of the resonance lattice as JSON.
+        """
         return self.lattice
 
     def get_daily_reflection(self) -> str:
+        """
+        Generate a humanized journal entry reflecting on the lattice's state.
+        """
         summary = "\n=== Daily Reflection: {} ===\n".format(self._current_time())
         known = unknown = 0
         emotional_themes: List[str] = []
@@ -81,10 +89,11 @@ class ResonanceLattice:
         summary += f"Known Zones: {known_pct}%\n"
         summary += f"Unknown Zones: {unknown_pct}%\n"
         summary += f"Emerging Emotional Themes: {list(set(emotional_themes))}\n"
-        summary += "Reflection: Patterns consolidate in familiar zones while novelty stirs at the edges. The system trends toward balance, remaining vigilant to emerging dynamics.\n"
+        summary += "Reflection: The lattice shows strong familiarity in core zones, with novel patterns emerging at the periphery.\n"
         return summary
 
     def _save_lattice(self):
+        os.makedirs(os.path.dirname(self.lattice_file), exist_ok=True)
         with open(self.lattice_file, 'w') as f:
             json.dump(self.lattice, f, indent=4)
         print("💾 Resonance lattice saved.")

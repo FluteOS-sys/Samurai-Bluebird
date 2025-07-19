@@ -54,3 +54,11 @@ def get_passive_input_snapshot():
         "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
     }
 
+
+class PassiveInputManager:
+    class PassiveInputManager:
+        def capture_batch(self):
+            return get_passive_input_snapshot()
+
+    def capture_batch(self):
+        return get_passive_input_snapshot()

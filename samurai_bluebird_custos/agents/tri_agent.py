@@ -1,17 +1,20 @@
 # samurai_bluebird_custos/agents/tri_agent.py
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 from samurai_bluebird_custos.agents.ams_core import AMSCore
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class TriAgent:
-    """Tri-Agent Multi-Mind – Resonance Genesis v0.2.0 with lattice narrative insights."""
+    """
+    Tri-Agent Multi-Mind – Resonance Genesis v0.2.1
+    Synthesizes narratives from the Resonance Lattice state.
+    """
 
     def __init__(self):
         self.ams_core = AMSCore()
 
     def reason_over_batch(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
-        print("🧠 Tri-Agent: Beginning reasoning cycle with socio-emotional and lattice awareness...")
+        print("🧠 Tri-Agent: Beginning reasoning cycle with resonance awareness...")
 
         # Step 1: Get processed output from AMS Core
         ams_output = self.ams_core.process_batch(input_data)
@@ -25,7 +28,7 @@ class TriAgent:
         print("📝 dashboard_log.txt updated.")
 
         # Step 4: Update resonance logger
-        log_all({"narrative": narrative_insight}, meta_notes="Tri-Agent Resonance Genesis reasoning complete.")
+        log_all({"narrative": narrative_insight}, meta_notes="Tri-Agent Resonance Genesis narrative synthesized.")
 
         return {"narrative": narrative_insight, "ams_output": ams_output}
 
@@ -33,26 +36,23 @@ class TriAgent:
         lattice_snapshot = self.ams_core.lattice.get_snapshot_json()
         reflection = self.ams_core.lattice.get_daily_reflection()
 
-        dominant_zones = self._extract_dominant_zones(lattice_snapshot)
+        dominant_themes = self._extract_dominant_themes(lattice_snapshot)
 
         return (
-            f"Bluebird Narrative Insight (Resonance Genesis):\n"
-            f"🌌 Dominant Zones: {dominant_zones}\n"
-            f"🪐 Planetary Signature: {lattice_snapshot.get('MetaSummary', {}).get('planetary_metadata', 'N/A')}\n"
-            f"💡 Emotional Themes:\n"
-            + "\n".join([f"  - {hook}" for hook in dominant_zones.get('narrative_hooks', [])]) + "\n\n"
-            f"📖 Daily Reflection:\n{reflection}\n"
+            f"🕊 Bluebird Narrative Insight (Resonance Genesis):\n"
+            f"🌌 Dominant Emotional Themes: {', '.join(dominant_themes)}\n"
+            f"📖 Reflection:\n{reflection}\n"
         )
 
-    def _extract_dominant_zones(self, lattice_snapshot: Dict[str, Any]) -> Dict[str, Any]:
-        # Placeholder: scan lattice and identify dominant emotional zones
-        dominant = {"narrative_hooks": []}
+    def _extract_dominant_themes(self, lattice_snapshot: Dict[str, Any]) -> List[str]:
+        """
+        Extract narrative hooks from the lattice for dominant emotional themes.
+        """
+        hooks = []
         for category, neurons in lattice_snapshot.items():
             for neuron_id, node in neurons.items():
-                if node.get("familiarity", 0) >= 0.8:
-                    dominant["narrative_hooks"].extend(node.get("narrative_hooks", []))
-        dominant["narrative_hooks"] = list(set(dominant["narrative_hooks"]))
-        return dominant
+                hooks.extend(node.get('narrative_hooks', []))
+        return list(set(hooks))
 
 if __name__ == "__main__":
     tri_agent = TriAgent()

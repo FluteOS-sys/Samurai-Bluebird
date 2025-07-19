@@ -1,69 +1,55 @@
 # samurai_bluebird_custos/ethics/ethical_gatekeeper.py
 
-import json
-import glob
-import os
 from typing import Dict, Any
-from samurai_bluebird_custos.ethics.pillars import SocioEmotionalFilter
+from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
+from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class EthicalGatekeeper:
-    """Measures reasoning over time using the 12 Pillars filter for self-reflection."""
+    """
+    Ethical Gatekeeper – Resonance Genesis v0.2.1
+    Applies final ethical alignment checks before symbolic neuron evolution.
+    """
 
     def __init__(self):
-        self.se_filter = SocioEmotionalFilter()
-        self.logs_dir = "logs/"
+        self.lattice = ResonanceLattice("memory/resonance_lattice.json")
 
-    def evaluate_recent_reasoning(self) -> Dict[str, Any]:
-        print("🛡 EthicalGatekeeper: Evaluating past reasoning...")
+    def filter_output(self, processed_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Filters output through ethical alignment checks.
+        """
+        print("⚖️ EthicalGatekeeper: Filtering output with socio-emotional alignment...")
 
-        # Get paths to last 7 input_resonance_log.txt files
-        recent_logs = sorted(
-            glob.glob(os.path.join(self.logs_dir, "input_resonance_log.txt")),
-            key=os.path.getmtime, reverse=True
-        )[:7]
+        filtered_data = {}
+        lattice_snapshot = self.lattice.get_snapshot_json()
 
-        past_reasonings = []
-        for log_file in recent_logs:
-            with open(log_file, "r") as f:
-                past_reasonings.append(json.load(f))
+        for category, entries in processed_data.items():
+            filtered_data[category] = {}
+            for entry_id, content in entries.items():
+                # Example filter logic: lower novelty if familiarity is high (stability bias)
+                familiarity = lattice_snapshot.get(category, {}).get(entry_id, {}).get("familiarity", 0.5)
+                novelty = content.get("novelty", 0.5)
 
-        # Aggregate socio-emotional and ethical patterns
-        aggregated_results = {}
-        for reasoning in past_reasonings:
-            result = self.se_filter.run_all(reasoning["combined_data"]["resonance_lattice"])
-            for k, v in result.items():
-                aggregated_results.setdefault(k, []).append(v)
+                if familiarity >= 0.8 and novelty > 0.2:
+                    novelty = max(novelty - 0.1, 0.0)  # Reduce novelty slightly
+                    print(f"⚖️ Stability bias applied to {category}:{entry_id}")
 
-        # Summarize trends
-        trends = {k: self._summarize_trend(v) for k, v in aggregated_results.items()}
+                filtered_data[category][entry_id] = {
+                    **content,
+                    "novelty": round(novelty, 3)
+                }
 
-        # Evaluate current dashboard log
-        with open(os.path.join(self.logs_dir, "dashboard_log.txt"), "r") as f:
-            current_narrative = f.read()
+        # Log filtered data
+        log_all(filtered_data, meta_notes="EthicalGatekeeper filtered batch.")
+        print("📝 Ethical filtering completed.")
 
-        meta_analysis = self._generate_meta_analysis(trends, current_narrative)
+        return filtered_data
 
-        # Write to output_resonance_log.txt
-        with open(os.path.join(self.logs_dir, "output_resonance_log.txt"), "w") as f:
-            f.write(meta_analysis)
-        print("📝 output_resonance_log.txt updated.")
-
-        return {"trends": trends, "meta_analysis": meta_analysis}
-
-    def _summarize_trend(self, values):
-        if values.count("High") > len(values) / 2:
-            return "Consistently High"
-        elif values.count("Neutral") > len(values) / 2:
-            return "Stable"
-        else:
-            return "Needs Attention"
-
-    def _generate_meta_analysis(self, trends, current_narrative):
-        return (
-            "Output Resonance Meta-Analysis:\n"
-            "Past Reasoning Trends:\n"
-            + "\n".join([f"  - {k}: {v}" for k, v in trends.items()]) + "\n\n"
-            "Current Narrative:\n"
-            f"{current_narrative}\n"
-        )
-
+if __name__ == "__main__":
+    gatekeeper = EthicalGatekeeper()
+    dummy_data = {
+        "TestCategory": {
+            "Entry001": {"valence": "positive", "familiarity": 0.9, "novelty": 0.4}
+        }
+    }
+    result = gatekeeper.filter_output(dummy_data)
+    print("Ethical Filter Result:", result)

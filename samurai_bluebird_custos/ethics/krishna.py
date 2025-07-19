@@ -5,7 +5,10 @@ from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
 import os
 
 class KrishnaMetaObserver:
-    """Krishna Meta-Observer – Resonance Genesis v0.2.0 with lattice self-reflection."""
+    """
+    Krishna Meta-Observer – Resonance Genesis v0.2.1
+    Reflects on the lattice state for known/unknown zones and ethical dynamics.
+    """
 
     def __init__(self):
         self.lattice = ResonanceLattice("memory/resonance_lattice.json")
@@ -26,15 +29,21 @@ class KrishnaMetaObserver:
         # Trigger meta_alert.txt if unknown zones exceed threshold
         lattice_snapshot = self.lattice.get_snapshot_json()
         unknown_ratio = self._calculate_unknown_ratio(lattice_snapshot)
-        if unknown_ratio >= 0.3:  # Example threshold: 30% unknown zones
+
+        if 0.38 <= unknown_ratio <= 0.42:
+            print("🟡 Vigilance: Unknown zones approaching meta alert threshold.")
+        if unknown_ratio > 0.42:
             meta_alert_path = os.path.join(self.logs_dir, 'meta_alert.txt')
             with open(meta_alert_path, 'w') as f:
-                f.write("⚠️ Meta Alert: System detecting high novelty/chaos levels in lattice.")
+                f.write("⚠️ Meta Alert: High novelty/chaos detected in Resonance Lattice.")
             print("⚠️ meta_alert.txt triggered.")
 
         return {"daily_reflection": reflection, "unknown_ratio": unknown_ratio}
 
     def _calculate_unknown_ratio(self, lattice_snapshot: Dict[str, Any]) -> float:
+        """
+        Calculate percentage of unknown zones in the lattice.
+        """
         known = unknown = 0
         for category, neurons in lattice_snapshot.items():
             for neuron_id, node in neurons.items():
