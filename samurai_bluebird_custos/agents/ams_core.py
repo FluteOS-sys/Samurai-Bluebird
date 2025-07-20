@@ -1,81 +1,52 @@
-# samurai_bluebird_custos/agents/ams_core.py
-
-from typing import Dict, Any
 import json
-import os
-import time
-from samurai_bluebird_custos.frameworks.blue_box import BlueBox
+from typing import Dict, Any
 from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
+from samurai_bluebird_custos.frameworks.blue_box import BlueBox
 from samurai_bluebird_custos.ethics.pillars import SocioEmotionalFilter
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class AMSCore:
-    """Active Meta-Synthesis Core – Resonance Genesis v0.2.1 with redundancy resonance and orthogonal updates."""
+    lattice: ResonanceLattice
+    blue_box: BlueBox
+    socio_emotional_filter: SocioEmotionalFilter
 
     def __init__(self):
-        # Ensure memory directory exists
-        memory_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "memory")
-        os.makedirs(memory_dir, exist_ok=True)
-
+        self.lattice = ResonanceLattice("memory/resonance_lattice.json")
         self.blue_box = BlueBox()
-        self.lattice = ResonanceLattice(lattice_file="memory/resonance_lattice.json")
-        self.se_filter = SocioEmotionalFilter()
+        self.socio_emotional_filter = SocioEmotionalFilter()
 
-    def inductive_reasoning(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Perform inductive reasoning (recognize redundancy and environmental resonance).
-        """
-        print("🔄 Inductive reasoning (resonance) completed.")
-        processed_data = self.blue_box.process_input(batch_data)
-        return {"ResonanceProcessed": processed_data}
-
-    def deductive_reasoning(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
-        """
-        Perform deductive reasoning (orthogonal updates).
-        """
-        print("🧠 Deductive reasoning (orthogonal updates) completed.")
-        # For simplicity, using same processed data
-        return batch_data
-
-    def process_batch(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def process_batch(self, batch_data: Dict[str, Any]) -> Dict[str, Any]:
         print("⚡ AMSCore: Processing new batch with Resonance Flow...")
 
-        # Step 1: Inductive reasoning (resonance)
-        inductive_results = self.inductive_reasoning(input_data)
+        # Step 1: Inductive reasoning
+        self.lattice.inductive_update(batch_data)
+        print("🔄 Inductive reasoning (resonance) completed.")
 
-        # Step 2: Deductive reasoning (orthogonal updates)
-        deductive_results = self.deductive_reasoning(inductive_results)
+        # Step 2: Framework processing
+        framework_output = self.blue_box.process(batch_data)
+        print("📦 BlueBox: Processing input through frameworks...")
 
-        # Step 3: Update Resonance Lattice
-        self.lattice.update_lattice_from_batch(deductive_results)
+        # Step 3: Deductive reasoning
+        self.lattice.deductive_update(framework_output)
+        print("🧠 Deductive reasoning (orthogonal updates) completed.")
 
-        # Step 4: Socio-Emotional Filter
-        socio_emotional_view = self.se_filter.run_all(deductive_results)
+        # Step 4: Apply socio-emotional filter
+        filtered_output = self.socio_emotional_filter.apply(framework_output)
 
-        # Step 5: Combine results
-        combined_data = {
-            "resonance_lattice": self.lattice.get_snapshot_json(),
-            "socio_emotional": socio_emotional_view,
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S")
+        # Step 5: Save lattice
+        self.lattice.save()
+        print("💾 Resonance lattice saved.")
+        print("🌌 Resonance lattice updated.")
+
+        # Step 6: Log the processed batch
+        log_entry = {
+            "batch": batch_data,
+            "framework_output": framework_output,
+            "filtered_output": filtered_output
         }
+        try:
+            log_all(json.dumps(log_entry, indent=2), "input_resonance_log.txt")
+        except Exception as e:
+            print(f"❌ Log write failed: {e}")
 
-        # Step 6: Write to input_resonance_log.txt
-        reasoning_output = {
-            "combined_data": combined_data
-        }
-        with open("logs/input_resonance_log.txt", "w") as f:
-            json.dump(reasoning_output, f, indent=4)
-        print("📝 input_resonance_log.txt updated.")
-
-        # Step 7: Update resonance logger
-        log_all(reasoning_output, meta_notes="AMS Core processed batch with resonance flow.")
-        return reasoning_output
-
-if __name__ == "__main__":
-    ams = AMSCore()
-    dummy_input = {
-        "tags": ["Compassion", "Trust", "Innovation"],
-        "weights": {"Compassion": 1.2, "Trust": 1.0, "Innovation": 1.1}
-    }
-    result = ams.process_batch(dummy_input)
-    print("AMS Core Result:", result)
+        return filtered_output

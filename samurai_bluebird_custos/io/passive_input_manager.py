@@ -1,71 +1,39 @@
-import pytesseract
-import cv2
 import psutil
-import time
-from PIL import ImageGrab
-from pynput import keyboard
-import numpy as np
+import random
+from datetime import datetime
 
-# Hardcode Tesseract path to avoid PATH issues
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+class PassiveInputManager:
+    def __init__(self):
+        print("🪶 PassiveInputManager initialized.")
 
-def capture_visual_text():
-    """
-    Capture visible text on the screen using Tesseract OCR.
-    """
-    try:
-        screenshot = ImageGrab.grab()
-        screenshot_cv = cv2.cvtColor(np.array(screenshot), cv2.COLOR_RGB2BGR)
-        text = pytesseract.image_to_string(screenshot_cv)
-        return text.strip()
-    except Exception as e:
-        print(f"⚠️ OCR failed: {e}")
-        return "[OCR unavailable]"
+    def capture(self) -> dict:
+        """
+        Capture a passive snapshot of the current system state.
+        """
+        try:
+            active_window = self.get_active_window()
+        except Exception:
+            active_window = "IdleState"
 
-def capture_keystroke_bursts(duration=5):
-    """
-    Count number of keystrokes over a given duration (seconds).
-    Does not log actual keys for privacy.
-    """
-    count = [0]
+        snapshot = {
+            "active_window": active_window,
+            "keystroke_burst": self.get_keystroke_burst(),
+            "screenshot_text": self.get_screenshot_text(),
+            "cpu_usage": psutil.cpu_percent(interval=1),
+            "memory_usage": psutil.virtual_memory().percent,
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        }
+        print(f"📥 Captured snapshot: {snapshot}")
+        return snapshot
 
-    def on_press(key):
-        count[0] += 1
+    def get_active_window(self) -> str:
+        # Placeholder for actual active window logic
+        return "Samurai-Bluebird – active.py"
 
-    listener = keyboard.Listener(on_press=on_press)
-    listener.start()
-    time.sleep(duration)
-    listener.stop()
-    return count[0]
+    def get_keystroke_burst(self) -> int:
+        # Simulated keystroke burst (placeholder)
+        return random.randint(0, 50)
 
-def get_active_window_title():
-    """
-    Return the title of the currently active window.
-    """
-    try:
-        import pygetwindow as gw
-        return gw.getActiveWindowTitle()
-    except Exception:
-        return "[Window title unavailable]"
-
-def get_system_stats():
-    """
-    Return current CPU and memory usage.
-    """
-    return {
-        "cpu_percent": psutil.cpu_percent(interval=1),
-        "memory_percent": psutil.virtual_memory().percent
-    }
-
-def get_passive_input_snapshot():
-    """
-    Aggregate all passive inputs into a single structured snapshot.
-    Future extensions: audio_context(), emotional_state(), etc.
-    """
-    snapshot = {
-        "active_window": get_active_window_title(),
-        "keystrokes": capture_keystroke_bursts(),
-        "screenshot_text": capture_visual_text(),
-        "system_stats": get_system_stats()
-    }
-    return snapshot
+    def get_screenshot_text(self) -> str:
+        # Placeholder for OCR logic
+        return "Sample OCR text from screenshot."

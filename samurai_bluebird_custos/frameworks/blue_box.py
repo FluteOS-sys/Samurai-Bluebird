@@ -1,58 +1,53 @@
 # samurai_bluebird_custos/frameworks/blue_box.py
 
-from typing import Dict, Any
-from samurai_bluebird_custos.frameworks.sovereignties import Sovereignties
-from samurai_bluebird_custos.frameworks.context_domains import ContextDomains
-from samurai_bluebird_custos.frameworks.chakra_mapping import ChakraMap
-from samurai_bluebird_custos.utils.planetary_metadata import get_planetary_positions
-from datetime import datetime
-import pytz
+import json
+import os
 
 class BlueBox:
-    """
-    Blue Box – Resonance Genesis v0.2.1
-    Central lattice for symbolic framework integration (Sovereignties, Chakras, Context Domains).
-    """
+    def __init__(self):
+        print("🔷 BlueBox initialized.")
+        self.sovereignties = self._load_dataset("frameworks/sovereignties_dataset.json")
+        self.chakras = self._load_dataset("frameworks/chakra_definitions.json")
+        self.context_domains = self._load_dataset("frameworks/context_domains.json")
 
-    def __init__(self, timezone: str = "America/Detroit"):
-        self.sovereignties = Sovereignties()
-        self.context_domains = ContextDomains()
-        self.chakras = ChakraMap()
-        self.timezone = pytz.timezone(timezone)
-
-    def process_input(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+    def _load_dataset(self, relative_path: str) -> dict:
         """
-        Process input data through symbolic frameworks and tag accordingly.
+        Load a dataset JSON from the frameworks directory.
         """
-        print("📦 BlueBox: Processing input through frameworks...")
+        try:
+            project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            dataset_path = os.path.join(project_root, "samurai_bluebird_custos", relative_path)
+            with open(dataset_path, "r", encoding="utf-8") as f:
+                print(f"📦 Loaded dataset from {dataset_path}")
+                return json.load(f)
+        except FileNotFoundError:
+            print(f"⚠️ Dataset not found: {relative_path}")
+            return {}
 
-        processed = {}
-        planetary_signature = get_planetary_positions(self._current_time())
+    def process(self, batch_data: dict) -> dict:
+        """
+        Process incoming batch data through Sovereignties, Chakras, and Context Domains.
+        """
+        print("🔷 BlueBox: Processing batch data...")
 
-        for tag, weight in zip(input_data.get("tags", []), input_data.get("weights", {}).values()):
-            sovereignty = self.sovereignties.get_archetype(tag) or "Unknown"
-            context_domain = self.context_domains.get_domain(tag) or "General"
-            chakra = self.chakras.get_chakra(tag) or "Neutral"
+        # Sovereignties mapping (placeholder logic)
+        sovereigns_hit = [s for s in self.sovereignties.keys() if s.lower() in str(batch_data).lower()]
 
-            processed[tag] = {
-                "sovereignty": sovereignty,
-                "context_domain": context_domain,
-                "chakra": chakra,
-                "weight": round(weight, 2),
-                "planetary_metadata": planetary_signature
-            }
-            print(f"🔖 Processed tag: {tag} -> {processed[tag]}")
+        # Chakra mapping (placeholder logic)
+        chakras_hit = [c for c in self.chakras.keys() if c.lower() in str(batch_data).lower()]
 
-        return {"BlueBoxProcessed": processed}
+        # Context Domains tagging (placeholder logic)
+        domains_hit = [d for d in self.context_domains.keys() if d.lower() in str(batch_data).lower()]
 
-    def _current_time(self) -> str:
-        return datetime.now(self.timezone).strftime('%Y-%m-%d %H:%M:%S %Z')
+        framework_output = batch_data.copy()
+        framework_output["bluebox_metadata"] = {
+            "sovereignties_matched": sovereigns_hit or ["None"],
+            "chakras_activated": chakras_hit or ["None"],
+            "context_domains_tagged": domains_hit or ["None"]
+        }
 
-if __name__ == "__main__":
-    blue_box = BlueBox()
-    dummy_input = {
-        "tags": ["Compassion", "Trust", "Innovation"],
-        "weights": {"Compassion": 1.2, "Trust": 1.0, "Innovation": 1.1}
-    }
-    result = blue_box.process_input(dummy_input)
-    print("BlueBox Result:", result)
+        print(f"🔷 Sovereignties matched: {sovereigns_hit}")
+        print(f"🔷 Chakras activated: {chakras_hit}")
+        print(f"🔷 Context Domains tagged: {domains_hit}")
+
+        return framework_output

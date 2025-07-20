@@ -118,6 +118,7 @@ class ResonancePillar:
 # 🪶 24 Pillars Manager
 class SocioEmotionalFilter:
     def __init__(self):
+        print("🌱 SocioEmotionalFilter initialized.")
         self.lenses = [
             EngagementLens(), ClarityLens(), EmpathyLens(),
             AdaptabilityLens(), ExpressionLens(), CohesionLens(),
@@ -132,7 +133,21 @@ class SocioEmotionalFilter:
             SovereigntyPillar(), CohesionVirtuePillar(), ResonancePillar()
         ]
 
+    def apply(self, framework_output: dict) -> dict:
+        """
+        Apply socio-emotional filtering to the framework output.
+        """
+        print("💠 SocioEmotionalFilter: Applying emotional-ethical filters...")
+        results = self.run_all(framework_output)
+        # Inject emotional & ethical assessments into output
+        filtered_output = framework_output.copy()
+        filtered_output["emotional_filters"] = results
+        return filtered_output
+
     def run_all(self, resonance_lattice):
+        """
+        Run all lenses and pillars on the given lattice data.
+        """
         results = {}
         for lens in self.lenses:
             name = lens.__class__.__name__.replace("Lens", "")
@@ -141,4 +156,3 @@ class SocioEmotionalFilter:
             name = pillar.__class__.__name__.replace("Pillar", "")
             results[name] = pillar.check(resonance_lattice)
         return results
-

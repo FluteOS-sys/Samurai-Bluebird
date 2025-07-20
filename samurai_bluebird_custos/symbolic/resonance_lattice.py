@@ -60,6 +60,61 @@ class ResonanceLattice:
         self._save_lattice()
         print("🌌 Resonance lattice updated.")
 
+    def inductive_update(self, data: dict):
+        """
+        Update the lattice based on inductive reasoning (resonance).
+        """
+        print("🔮 ResonanceLattice: Performing inductive update...")
+        try:
+            node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
+            node["familiarity"] += 0.05
+            node["novelty"] -= 0.05
+            node["last_updated"] = self._current_time()
+            self._clamp_values()
+        except KeyError:
+            print("⚠️ No ResonanceProcessed -> BlueBoxProcessed found. Initializing.")
+            self.lattice["ResonanceProcessed"] = {
+                "BlueBoxProcessed": {
+                    "valence": "neutral",
+                    "familiarity": 0.05,
+                    "novelty": 0.95,
+                    "narrative_hooks": [],
+                    "planetary_metadata": {},
+                    "last_updated": self._current_time()
+                }
+            }
+
+    def deductive_update(self, framework_output: dict):
+        """
+        Update the lattice based on deductive reasoning (orthogonal updates).
+        """
+        print("🧭 ResonanceLattice: Performing deductive update...")
+        try:
+            node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
+            node["novelty"] += 0.1
+            node["last_updated"] = self._current_time()
+            self._clamp_values()
+        except KeyError:
+            print("⚠️ No ResonanceProcessed -> BlueBoxProcessed found. Initializing.")
+            self.lattice["ResonanceProcessed"] = {
+                "BlueBoxProcessed": {
+                    "valence": "neutral",
+                    "familiarity": 0.0,
+                    "novelty": 0.1,
+                    "narrative_hooks": [],
+                    "planetary_metadata": {},
+                    "last_updated": self._current_time()
+                }
+            }
+
+    def _clamp_values(self):
+        """
+        Keep familiarity and novelty within 0.0–1.0 bounds.
+        """
+        node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
+        node["familiarity"] = max(0.0, min(node["familiarity"], 1.0))
+        node["novelty"] = max(0.0, min(node["novelty"], 1.0))
+
     def get_snapshot_json(self) -> Dict[str, Any]:
         """
         Return the current state of the resonance lattice as JSON.
@@ -100,3 +155,9 @@ class ResonanceLattice:
 
     def _current_time(self) -> str:
         return datetime.now(self.timezone).strftime('%Y-%m-%d %H:%M:%S %Z')
+
+    def save(self):
+        """
+        Public method to save the current lattice state to disk.
+        """
+        self._save_lattice()
