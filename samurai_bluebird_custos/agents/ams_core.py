@@ -2,7 +2,7 @@
 
 import json
 from typing import Dict, Any
-from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
+from samurai_bluebird_custos.symbolic.recursive_memory_lattice import ResonanceLattice
 from samurai_bluebird_custos.ethics.pillars import SocioEmotionalFilter
 from samurai_bluebird_custos.core.resonance_logger import log_all
 

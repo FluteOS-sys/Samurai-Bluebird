@@ -1,7 +1,7 @@
 # samurai_bluebird_custos/ethics/ethical_gatekeeper.py
 
 from typing import Dict, Any
-from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
+from samurai_bluebird_custos.symbolic.recursive_memory_lattice import ResonanceLattice
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 class EthicalGatekeeper:

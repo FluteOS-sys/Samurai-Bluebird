@@ -1,7 +1,7 @@
 # samurai_bluebird_custos/ethics/krishna.py
 
 from datetime import datetime, timedelta
-from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
+from samurai_bluebird_custos.symbolic.recursive_memory_lattice import ResonanceLattice
 from samurai_bluebird_custos.core.resonance_logger import log_all
 
 WITNESS_LOG = "witness_log.txt"

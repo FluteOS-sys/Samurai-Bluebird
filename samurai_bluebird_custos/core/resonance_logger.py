@@ -1,30 +1,27 @@
-# samurai_bluebird_custos/core/resonance_logger.py
+# resonance_logger.py
 
+import json
 import os
-import sys
+from datetime import datetime
 
-# Fix Windows terminal and file writing for UTF-8
-if sys.platform == "win32":
-    import io
-    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+def write_output_logs(narrative, symbolic_data, meaning_map):
+    timestamp = datetime.utcnow().isoformat()
+    log_entry = {
+        "timestamp": timestamp,
+        "narrative": narrative,
+        "symbolic": symbolic_data,
+        "meaning_map": meaning_map
+    }
+    os.makedirs("logs", exist_ok=True)
+    with open("logs/output_resonance_log.txt", "a") as f:
+        f.write(json.dumps(log_entry) + "\n")
 
-LOG_DIR = "logs"
-
-def ensure_log_dir():
-    """Ensure that the logs directory exists."""
-    if not os.path.exists(LOG_DIR):
-        os.makedirs(LOG_DIR)
-
-def log_all(message: str, log_file: str = "input_resonance_log.txt"):
-    """
-    Write a log message to the specified log file.
-    If the logs directory does not exist, create it first.
-    """
-    ensure_log_dir()
-    log_path = os.path.join(LOG_DIR, log_file)
-    try:
-        with open(log_path, "a", encoding="utf-8") as f:
-            f.write(f"{message}\n")
-        print(f"📜 Log written to {log_file}")
-    except Exception as e:
-        print(f"❌ Failed to write log: {e}")
+def verify_and_log(system_state):
+    timestamp = datetime.utcnow().isoformat()
+    entry = {
+        "timestamp": timestamp,
+        "system_state": system_state
+    }
+    os.makedirs("logs", exist_ok=True)
+    with open("logs/dashboard_log.txt", "a") as f:
+        f.write(json.dumps(entry) + "\n")

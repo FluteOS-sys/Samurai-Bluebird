@@ -1,14 +1,14 @@
-# samurai_bluebird_custos/symbolic/resonance_lattice.py
+# samurai_bluebird_custos/symbolic/recursive_memory_lattice.py
 
 import json
 import os
-import time
-from typing import Dict, Any, List
 from datetime import datetime
-import pytz
-from samurai_bluebird_custos.utils.planetary_metadata import get_planetary_positions
+from typing import Dict, Any, List
 
-class ResonanceLattice:
+import pytz
+
+
+class RecursiveSymbolicMemoryLattice:
     """
     Resonance Lattice – evolving symbolic memory map of Samurai Bluebird.
     Stores symbolic neurons as nodes with valence, familiarity, novelty, narrative hooks, and planetary metadata.

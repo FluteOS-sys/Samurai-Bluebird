@@ -1,25 +1,40 @@
 ### main_loop.py
 
-import json
-from samurai_bluebird_custos.io.passive_input_manager import PassiveInputManager
-from samurai_bluebird_custos.agents.ams_core import AMSCore
-from samurai_bluebird_custos.agents.tri_agent import reason_over_batch
-from samurai_bluebird_custos.core.resonance_logger import log_all
+from ..feathers import capture_snapshot
+from ..agents.tri_agent import TriAgent
+from ..frameworks.blue_box import BlueBox
+from ..core.ams_core import AMSCore
+from ..core.resonance_logger import write_output_logs, verify_and_log
 
 
-def main_loop():
-    # 1. Capture passive input snapshot
-    snapshot = PassiveInputManager().capture()
+def main():
+    # Step 1: Capture passive input snapshot
+    snapshot = capture_snapshot()
 
-    # 2. Tri-Agent generates narrative and symbolic structure
-    enriched = reason_over_batch(snapshot)
-    narrative = enriched["narrative"]
-    enriched_batch = enriched["enriched_batch"]
+    # Step 2: Run Tri-Agent to extract narrative and symbolic hooks
+    tri_agent = TriAgent()
+    tri_output = tri_agent.reason_over_batch(snapshot)
+    narrative = tri_output["narrative"]
+    enriched_data = tri_output["raw_enriched"]
 
-    # 3. AMSCore processes symbolic enrichment and updates memory
-    ams = AMSCore()
-    memory_update = ams.process_batch(enriched_batch)
+    # Step 3: Run BlueBox frameworks to generate symbolic meaning map
+    bluebox = BlueBox()
+    meaning_map = bluebox.process(narrative)
 
-    # 4. Log the results
-    log_all(narrative, "dashboard_log.txt")
-    log_all(json.dumps(memory_update, indent=2), "output_resonance_log.txt")
+    # Step 4: Run AMSCore with full enriched batch
+    full_batch = {
+        "snapshot": snapshot,
+        "narrative": narrative,
+        "symbolic": enriched_data,
+        "meaning_map": meaning_map
+    }
+    ams_core = AMSCore()
+    updated_state = ams_core.process_batch(full_batch)
+
+    # Step 5: Log outputs
+    write_output_logs(narrative, enriched_data, meaning_map)
+    verify_and_log(updated_state)
+
+
+if __name__ == "__main__":
+    main()
