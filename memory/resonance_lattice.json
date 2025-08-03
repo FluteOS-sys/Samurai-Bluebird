@@ -3,11 +3,11 @@
     "ResonanceProcessed": {
         "BlueBoxProcessed": {
             "valence": "neutral",
-            "familiarity": 0.7250000000000002,
-            "novelty": 0.9749999999999995,
+            "familiarity": 0.9750000000000004,
+            "novelty": 1.0,
             "narrative_hooks": [],
             "planetary_metadata": {},
-            "last_updated": "2025-08-02 20:16:50 EDT"
+            "last_updated": "2025-08-02 20:41:55 EDT"
         }
     }
 }
