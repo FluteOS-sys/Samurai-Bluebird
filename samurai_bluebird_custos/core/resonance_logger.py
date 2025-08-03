@@ -1,4 +1,12 @@
+# samurai_bluebird_custos/core/resonance_logger.py
+
 import os
+import sys
+
+# Fix Windows terminal and file writing for UTF-8
+if sys.platform == "win32":
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
 
 LOG_DIR = "logs"
 

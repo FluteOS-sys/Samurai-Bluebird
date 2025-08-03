@@ -23,9 +23,12 @@ class TriAgent:
         narrative_insight = self._generate_narrative(ams_output)
 
         # Step 3: Write to dashboard_log.txt
-        with open("logs/dashboard_log.txt", "w") as f:
-            f.write(narrative_insight)
-        print("📝 dashboard_log.txt updated.")
+        try:
+            with open("logs/dashboard_log.txt", "w", encoding="utf-8") as f:
+                f.write(narrative_insight)
+            print("📝 dashboard_log.txt updated.")
+        except Exception as e:
+            print(f"❌ Failed to write dashboard log: {e}")
 
         # Step 4: Update resonance logger
         log_all({"narrative": narrative_insight}, meta_notes="Tri-Agent Resonance Genesis narrative synthesized.")

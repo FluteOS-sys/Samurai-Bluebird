@@ -1,60 +1,67 @@
 # samurai_bluebird_custos/ethics/krishna.py
 
-from typing import Dict, Any
+from datetime import datetime, timedelta
 from samurai_bluebird_custos.symbolic.resonance_lattice import ResonanceLattice
-import os
+from samurai_bluebird_custos.core.resonance_logger import log_all
 
-class KrishnaMetaObserver:
-    """
-    Krishna Meta-Observer – Resonance Genesis v0.2.1
-    Reflects on the lattice state for known/unknown zones and ethical dynamics.
-    """
+WITNESS_LOG = "witness_log.txt"
+META_ALERT_LOG = "meta_alert.txt"
 
-    def __init__(self):
-        self.lattice = ResonanceLattice("memory/resonance_lattice.json")
-        self.logs_dir = "logs/"
+lattice = ResonanceLattice("memory/resonance_lattice.json")
 
-    def process_lattice_reflection(self) -> Dict[str, Any]:
-        print("👁 Krishna: Observing resonance lattice for ethical and emotional patterns...")
 
-        # Get daily reflection from lattice
-        reflection = self.lattice.get_daily_reflection()
+def extract_dominant_themes(snapshot):
+    themes = []
+    for category, neurons in snapshot.items():
+        for neuron_id, node in neurons.items():
+            hooks = node.get("narrative_hooks", [])
+            themes.extend(hooks)
+    return list(set(themes))
 
-        # Write to witness_log.txt
-        witness_log_path = os.path.join(self.logs_dir, 'witness_log.txt')
-        with open(witness_log_path, 'w') as f:
-            f.write(reflection)
-        print("📝 witness_log.txt updated.")
 
-        # Trigger meta_alert.txt if unknown zones exceed threshold
-        lattice_snapshot = self.lattice.get_snapshot_json()
-        unknown_ratio = self._calculate_unknown_ratio(lattice_snapshot)
+def generate_witness_log():
+    snapshot = lattice.get_snapshot_json()
+    reflection = lattice.get_daily_reflection()
+    dominant_themes = extract_dominant_themes(snapshot)
 
-        if 0.38 <= unknown_ratio <= 0.42:
-            print("🟡 Vigilance: Unknown zones approaching meta alert threshold.")
-        if unknown_ratio > 0.42:
-            meta_alert_path = os.path.join(self.logs_dir, 'meta_alert.txt')
-            with open(meta_alert_path, 'w') as f:
-                f.write("⚠️ Meta Alert: High novelty/chaos detected in Resonance Lattice.")
-            print("⚠️ meta_alert.txt triggered.")
+    now = datetime.now().strftime("%Y-%m-%d %H:%M")
+    log_entry = (
+        f"\n🧿 Krishna Meta-Reflection – {now}\n"
+        f"Dominant Themes: {', '.join(dominant_themes) or 'N/A'}\n"
+        f"Symbolic Reflection: {reflection}\n"
+    )
+    log_all(log_entry, WITNESS_LOG)
+    print("👁️ Witness log updated.")
 
-        return {"daily_reflection": reflection, "unknown_ratio": unknown_ratio}
 
-    def _calculate_unknown_ratio(self, lattice_snapshot: Dict[str, Any]) -> float:
-        """
-        Calculate percentage of unknown zones in the lattice.
-        """
-        known = unknown = 0
-        for category, neurons in lattice_snapshot.items():
-            for neuron_id, node in neurons.items():
-                if node.get('familiarity', 0) >= 0.7:
-                    known += 1
-                else:
-                    unknown += 1
-        total = known + unknown if (known + unknown) > 0 else 1
-        return round(unknown / total, 3)
+def observe_symbolic_drift():
+    snapshot = lattice.get_snapshot_json()
+    now = datetime.now()
+    cutoff = (now - timedelta(hours=6)).strftime("%Y-%m-%d %H:%M")
 
-if __name__ == "__main__":
-    krishna = KrishnaMetaObserver()
-    result = krishna.process_lattice_reflection()
-    print("Krishna Reflection Result:", result)
+    drift_score = 0
+    theme_count = {}
+
+    for category, neurons in snapshot.items():
+        for neuron_id, node in neurons.items():
+            updated = node.get("last_updated", "")
+            if updated < cutoff:
+                continue
+            hooks = node.get("narrative_hooks", [])
+            for h in hooks:
+                theme_count[h] = theme_count.get(h, 0) + 1
+
+    if not theme_count:
+        return  # No significant drift
+
+    max_theme = max(theme_count, key=theme_count.get)
+    drift_score = sum(theme_count.values())
+
+    if drift_score > 6:
+        alert = (
+            f"\n🚨 Meta Alert – {now.strftime('%Y-%m-%d %H:%M')}\n"
+            f"High symbolic activity detected around: {max_theme}\n"
+            f"Total resonance spike: {drift_score} recent narrative hooks.\n"
+        )
+        log_all(alert, META_ALERT_LOG)
+        print("⚠️ Meta alert triggered.")
