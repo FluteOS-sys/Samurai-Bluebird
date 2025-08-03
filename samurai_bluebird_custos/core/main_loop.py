@@ -1,50 +1,25 @@
-# samurai_bluebird_custos/core/main_loop.py
+### main_loop.py
 
-import time
-from samurai_bluebird_custos.core.kernel import Kernel
-from samurai_bluebird_custos.agents.tri_agent import TriAgent
+import json
+from samurai_bluebird_custos.io.passive_input_manager import PassiveInputManager
+from samurai_bluebird_custos.agents.ams_core import AMSCore
+from samurai_bluebird_custos.agents.tri_agent import reason_over_batch
 from samurai_bluebird_custos.core.resonance_logger import log_all
-from samurai_bluebird_custos.ethics.krishna import generate_witness_log, observe_symbolic_drift
 
-if __name__ == "__main__":
-    runtime_minutes = 30  # Total run time
-    interval_seconds = 300  # 5 min between snapshots
 
-    kernel = Kernel()
-    tri_agent = TriAgent()
+def main_loop():
+    # 1. Capture passive input snapshot
+    snapshot = PassiveInputManager().capture()
 
-    print("⚡ Kernel: Starting Resonance Flow runtime...")
-    start_time = time.time()
-    end_time = start_time + (runtime_minutes * 60)
+    # 2. Tri-Agent generates narrative and symbolic structure
+    enriched = reason_over_batch(snapshot)
+    narrative = enriched["narrative"]
+    enriched_batch = enriched["enriched_batch"]
 
-    while time.time() < end_time:
-        try:
-            # Capture passive input snapshot
-            snapshot = kernel.feathers.capture()
+    # 3. AMSCore processes symbolic enrichment and updates memory
+    ams = AMSCore()
+    memory_update = ams.process_batch(enriched_batch)
 
-            # Process batch through AMS Core
-            filtered_output = kernel.ams_core.process_batch(snapshot)
-            print(f"✅ Processed snapshot at {time.strftime('%Y-%m-%d %H:%M:%S')}")
-
-            # Generate narrative insight via Tri-Agent
-            tri_output = tri_agent.reason_over_batch(filtered_output)
-            narrative = tri_output.get("narrative", "No narrative generated.")
-
-            # Log narrative to dashboard_log
-            log_all(narrative, "dashboard_log.txt")
-
-            # Run Krishna meta-observation each cycle
-            generate_witness_log()
-            observe_symbolic_drift()
-
-            # Log symbolic snapshot to summary
-            hooks = filtered_output.get("narrative_hooks", [])
-            symbolic_log = f"⏱ {time.strftime('%H:%M:%S')} | Hooks: {', '.join(hooks) or 'None'}"
-            log_all(symbolic_log, "symbolic_snapshots.txt")
-
-        except Exception as e:
-            print(f"❌ Kernel error: {e}")
-
-        time.sleep(interval_seconds)
-
-    print("🛑 Kernel: Resonance Flow completed.")
+    # 4. Log the results
+    log_all(narrative, "dashboard_log.txt")
+    log_all(json.dumps(memory_update, indent=2), "output_resonance_log.txt")
