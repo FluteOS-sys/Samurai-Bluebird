@@ -26,28 +26,46 @@ class BlueBox:
 
     def process(self, batch_data: dict) -> dict:
         """
-        Process incoming batch data through Sovereignties, Chakras, and Context Domains.
+        Analyze behavioral patterns in batch_data and map to symbolic frameworks.
+        Returns a rich meaning map for AMSCore.
         """
-        print("🔷 BlueBox: Processing batch data...")
+        print("🔷 BlueBox: Analyzing behavioral patterns...")
 
-        # Sovereignties mapping (placeholder logic)
-        sovereigns_hit = [s for s in self.sovereignties.keys() if s.lower() in str(batch_data).lower()]
+        # Extract features from batch
+        keystroke_burst = batch_data.get("keystroke_burst", 0)
+        cpu_usage = batch_data.get("cpu_usage", 0)
+        memory_usage = batch_data.get("memory_usage", 0)
+        active_window = batch_data.get("active_window", "").lower()
+        screenshot_text = batch_data.get("screenshot_text", "").lower()
 
-        # Chakra mapping (placeholder logic)
-        chakras_hit = [c for c in self.chakras.keys() if c.lower() in str(batch_data).lower()]
-
-        # Context Domains tagging (placeholder logic)
-        domains_hit = [d for d in self.context_domains.keys() if d.lower() in str(batch_data).lower()]
-
-        framework_output = batch_data.copy()
-        framework_output["bluebox_metadata"] = {
-            "sovereignties_matched": sovereigns_hit or ["None"],
-            "chakras_activated": chakras_hit or ["None"],
-            "context_domains_tagged": domains_hit or ["None"]
+        # Initialize meaning map
+        meaning_map = {
+            "sovereignties": {},
+            "chakras": {},
+            "context_domains": {}
         }
 
-        print(f"🔷 Sovereignties matched: {sovereigns_hit}")
-        print(f"🔷 Chakras activated: {chakras_hit}")
-        print(f"🔷 Context Domains tagged: {domains_hit}")
+        # --- Sovereignties Reasoning ---
+        meaning_map["sovereignties"]["Flow"] = min(1.0, keystroke_burst / 50) if keystroke_burst > 20 and cpu_usage < 60 else 0.2
+        meaning_map["sovereignties"]["Struggle"] = min(1.0, cpu_usage / 100) if cpu_usage > 70 else 0.1
+        meaning_map["sovereignties"]["Reflection"] = 0.7 if "browser" in active_window or "note" in active_window else 0.3
+        meaning_map["sovereignties"]["Distraction"] = 0.6 if keystroke_burst < 5 and "youtube" in active_window else 0.2
 
+        # --- Chakras Reasoning ---
+        meaning_map["chakras"]["Heart"] = 0.8 if "love" in screenshot_text or "thank" in screenshot_text else 0.3
+        meaning_map["chakras"]["Solar Plexus"] = 0.7 if cpu_usage > 80 else 0.2
+        meaning_map["chakras"]["Root"] = 0.9 if memory_usage > 85 else 0.3
+        meaning_map["chakras"]["Third Eye"] = 0.6 if "idea" in screenshot_text else 0.2
+
+        # --- Context Domains Reasoning ---
+        meaning_map["context_domains"]["Creative"] = 0.8 if keystroke_burst > 30 else 0.3
+        meaning_map["context_domains"]["Operational"] = 0.7 if "excel" in active_window or "terminal" in active_window else 0.2
+        meaning_map["context_domains"]["Reflective"] = 0.5 if "journal" in active_window or "read" in active_window else 0.2
+        meaning_map["context_domains"]["Relational"] = 0.6 if "chat" in active_window or "messenger" in active_window else 0.2
+
+        # Assemble framework output
+        framework_output = batch_data.copy()
+        framework_output["meaning_map"] = meaning_map
+
+        print(f"🔷 Meaning Map Generated: {json.dumps(meaning_map, indent=2)}")
         return framework_output
