@@ -53,8 +53,8 @@ This document describes the high-level data flow within **Samurai Bluebird Custo
 
 ### 🧠 6. Tri-Agent Multi-Mind
 - Consumes AMS Core output and Resonance Lattice snapshot.
-- Generates archetypal narratives for leadership insight.
-- Writes to `dashboard_log.txt`.
+- Generates companion-style, grounded narratives instead of mythic archetypes.
+- Writes to `dashboard_log.txt` with language suitable for everyday guidance.
 
 ---
 

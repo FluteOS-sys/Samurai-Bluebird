@@ -12,7 +12,7 @@ This system is a fusion of symbolic reasoning, ethical filters, and dynamic memo
 | [Resonance Lattice](resonance_lattice.md) | Overview of the dynamic memory graph and symbolic neurons. |
 | System Flow                               | Detailed flow of passive inputs through Bluebird modules.  |
 | Meta-Observer (Krishna)                   | How Krishna reflects and generates witness/meta logs.      |
-| Narrative Engine (Tri-Agent)              | How Tri-Agent builds archetypal stories from lattice data. |
+| Narrative Engine (Tri-Agent)              | How Tri-Agent builds grounded, companion-style stories from lattice data. |
 
 ---
 

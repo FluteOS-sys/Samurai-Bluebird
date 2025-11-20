@@ -2,6 +2,15 @@ import time
 from samurai_bluebird_custos.agents.ams_core import AMSCore
 from samurai_bluebird_custos.io.passive_input_manager import PassiveInputManager
 
+
+def assemble_feather_input():
+    """
+    Capture a single passive snapshot for downstream processing.
+    Returns a dict with timestamped window, keystroke, and system metrics.
+    """
+    manager = PassiveInputManager()
+    return manager.capture()
+
 class Kernel:
     def __init__(self):
         self.ams_core = AMSCore()
