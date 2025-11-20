@@ -29,7 +29,8 @@ class TriAgent:
                 "tags": list(set(logic_analysis["tags"] + emotion_analysis["tags"] + mythic_analysis["tags"])),
                 "emotional_tone": emotion_analysis["tone"],
                 "resonance_score": logic_analysis.get("resonance", 0.5)
-            }
+            },
+            "ams_output": {}
         }
         return enriched_output
 

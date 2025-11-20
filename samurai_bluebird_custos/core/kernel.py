@@ -27,3 +27,10 @@ class Kernel:
             time.sleep(interval_seconds)
 
         print("🛑 Kernel: Resonance Flow completed.")
+
+
+def assemble_feather_input():
+    """Collect a passive input snapshot for quick testing."""
+
+    manager = PassiveInputManager()
+    return manager.capture()

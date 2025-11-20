@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Samurai Bluebird Control Panel</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #0b1220; color: #e4e7ef; margin: 0; }
+    header { padding: 16px; background: #121b2f; border-bottom: 1px solid #1f2a40; }
+    main { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    section { background: #141f33; padding: 14px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.25); }
+    h2 { margin-top: 0; color: #8ad5ff; }
+    button { background: #1e88e5; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; }
+    button.secondary { background: #455a64; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    input, select, textarea { width: 100%; padding: 8px; margin: 6px 0; border-radius: 6px; border: 1px solid #25344d; background: #0f1727; color: #e4e7ef; }
+    textarea { resize: vertical; min-height: 80px; }
+    .row { display: flex; gap: 8px; align-items: center; }
+    .logs { max-height: 260px; overflow-y: auto; background: #0f1727; padding: 8px; border-radius: 6px; font-family: monospace; white-space: pre-wrap; }
+    .chat-thread { max-height: 320px; overflow-y: auto; background: #0f1727; padding: 8px; border-radius: 6px; }
+    .chat-entry { margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #1f2a40; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; background: #233551; color: #9fe4ff; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Samurai Bluebird – Control, Logs & Chat</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Kernel Controls</h2>
+      <div class="row">
+        <input type="number" id="interval" min="5" value="300" />
+        <button onclick="startKernel()">Start</button>
+        <button class="secondary" onclick="stopKernel()">Stop</button>
+      </div>
+      <div class="row">
+        <label><input type="checkbox" id="passiveToggle" onchange="togglePassive(this.checked)" checked> Passive capture</label>
+      </div>
+      <p id="statusText">Status: idle</p>
+      <div>
+        <h3>Recent Snapshots</h3>
+        <div id="snapshots" class="logs"></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Chat with TriAgent</h2>
+      <textarea id="prompt" placeholder="Ask the cognitive pipeline..."></textarea>
+      <button onclick="sendPrompt()">Send</button>
+      <div id="chat" class="chat-thread"></div>
+    </section>
+
+    <section>
+      <h2>Logs</h2>
+      <div class="row">
+        <input type="date" id="logDate" />
+        <select id="logFile">
+          <option value="output_resonance_log.txt">output_resonance_log.txt</option>
+          <option value="input_resonance_log.txt">input_resonance_log.txt</option>
+          <option value="dashboard_log.txt">dashboard_log.txt</option>
+          <option value="witness_log.txt">witness_log.txt</option>
+        </select>
+        <button onclick="loadLogs()">Refresh</button>
+      </div>
+      <div id="logEntries" class="logs"></div>
+    </section>
+
+    <section>
+      <h2>TriAgent Narratives</h2>
+      <div id="narratives" class="logs"></div>
+    </section>
+  </main>
+
+  <script>
+    const statusText = document.getElementById('statusText');
+    const snapshotsDiv = document.getElementById('snapshots');
+    const logDateInput = document.getElementById('logDate');
+    const logEntriesDiv = document.getElementById('logEntries');
+    const narrativesDiv = document.getElementById('narratives');
+    const chatDiv = document.getElementById('chat');
+
+    logDateInput.valueAsDate = new Date();
+
+    async function startKernel() {
+      const interval = parseInt(document.getElementById('interval').value, 10) || null;
+      await fetch('/api/kernel/start', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ interval_seconds: interval })
+      });
+      await refreshStatus();
+    }
+
+    async function stopKernel() {
+      await fetch('/api/kernel/stop', { method: 'POST' });
+      await refreshStatus();
+    }
+
+    async function togglePassive(enabled) {
+      await fetch('/api/passive/toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ enabled })
+      });
+      await refreshStatus();
+    }
+
+    async function sendPrompt() {
+      const prompt = document.getElementById('prompt').value.trim();
+      if (!prompt) return;
+      const res = await fetch('/api/prompt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt })
+      });
+      const data = await res.json();
+      prependChatEntry(prompt, data);
+      document.getElementById('prompt').value = '';
+      await refreshStatus();
+    }
+
+    function prependChatEntry(prompt, data) {
+      const div = document.createElement('div');
+      div.className = 'chat-entry';
+      div.innerHTML = `
+        <div><span class="badge">You</span> ${prompt}</div>
+        <div><span class="badge">TriAgent</span> ${data.tri_narrative || 'No narrative'}</div>
+        <div style="font-size: 12px; color: #9ca8c7;">Resonance: ${data.meaning_map?.resonance_score ?? 'N/A'}</div>
+      `;
+      chatDiv.prepend(div);
+    }
+
+    async function loadLogs() {
+      const date = logDateInput.value;
+      const filename = document.getElementById('logFile').value;
+      const res = await fetch(`/api/logs?date=${date}&filename=${filename}&limit=80`);
+      const data = await res.json();
+      logEntriesDiv.textContent = data.entries.join('');
+    }
+
+    function renderSnapshots(list) {
+      snapshotsDiv.innerHTML = list.map(entry => {
+        const snap = entry.snapshot || {};
+        return `<div class="chat-entry"><strong>${entry.timestamp}</strong><br>` +
+          `Window: ${snap.active_window || 'n/a'} | CPU: ${snap.cpu_usage}% | Memory: ${snap.memory_usage}%<br>` +
+          `<em>${entry.tri_narrative || ''}</em></div>`;
+      }).join('');
+    }
+
+    function renderNarratives(list) {
+      narrativesDiv.innerHTML = list.map(n => `<div><strong>${n.timestamp}</strong> — ${n.source}<br>${n.text}</div>`).join('\n');
+    }
+
+    async function refreshStatus() {
+      const res = await fetch('/api/status');
+      const data = await res.json();
+      statusText.textContent = `Status: ${data.running ? 'running' : 'stopped'} | Passive capture ${data.passive_capture_enabled ? 'on' : 'off'} | Interval ${data.interval_seconds}s`;
+      document.getElementById('passiveToggle').checked = data.passive_capture_enabled;
+      renderSnapshots(data.recent_snapshots || []);
+      renderNarratives(data.recent_narratives || []);
+    }
+
+    async function bootstrap() {
+      await refreshStatus();
+      await loadLogs();
+      setInterval(refreshStatus, 5000);
+      setInterval(loadLogs, 7000);
+    }
+
+    bootstrap();
+  </script>
+</body>
+</html>
