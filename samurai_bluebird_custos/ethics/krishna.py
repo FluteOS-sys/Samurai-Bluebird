@@ -65,3 +65,33 @@ def observe_symbolic_drift():
         )
         log_all(alert, META_ALERT_LOG)
         print("⚠️ Meta alert triggered.")
+
+
+class KrishnaMetaObserver:
+    """High-level interface for invoking Krishna reflection utilities."""
+
+    def __init__(self):
+        self.lattice = lattice
+
+    def process_lattice_reflection(self):
+        snapshot = self.lattice.get_snapshot_json()
+        reflection = self.lattice.get_daily_reflection()
+        dominant_themes = extract_dominant_themes(snapshot)
+        unknown_ratio = self._unknown_ratio(snapshot)
+        return {
+            "snapshot": snapshot,
+            "dominant_themes": dominant_themes,
+            "daily_reflection": reflection,
+            "unknown_ratio": unknown_ratio,
+        }
+
+    def _unknown_ratio(self, snapshot):
+        known = unknown = 0
+        for category, neurons in snapshot.items():
+            for _, node in neurons.items():
+                if node.get("familiarity", 0) >= 0.7:
+                    known += 1
+                else:
+                    unknown += 1
+        total = known + unknown or 1
+        return round(unknown / total, 3)

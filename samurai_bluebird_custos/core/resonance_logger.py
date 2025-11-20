@@ -25,3 +25,11 @@ def verify_and_log(system_state):
     os.makedirs("logs", exist_ok=True)
     with open("logs/dashboard_log.txt", "a") as f:
         f.write(json.dumps(entry) + "\n")
+
+
+def log_all(content: str, filename: str):
+    """Utility to append arbitrary content to a log file in the logs directory."""
+
+    os.makedirs("logs", exist_ok=True)
+    with open(os.path.join("logs", filename), "a") as log_file:
+        log_file.write(content + "\n")
