@@ -153,6 +153,17 @@ class RecursiveSymbolicMemoryLattice:
             json.dump(self.lattice, f, indent=4)
         print("💾 Resonance lattice saved.")
 
+    def fetch_recent_symbols(self) -> Dict[str, Any]:
+        """Return the most recent symbolic neurons for prompting."""
+
+        recent_nodes: Dict[str, Any] = {}
+        for category, neurons in self.lattice.items():
+            if not isinstance(neurons, dict):
+                continue
+            for neuron_id, payload in list(neurons.items())[:3]:
+                recent_nodes[f"{category}:{neuron_id}"] = payload
+        return recent_nodes
+
     def _current_time(self) -> str:
         return datetime.now(self.timezone).strftime('%Y-%m-%d %H:%M:%S %Z')
 
@@ -161,3 +172,10 @@ class RecursiveSymbolicMemoryLattice:
         Public method to save the current lattice state to disk.
         """
         self._save_lattice()
+
+
+class ResonanceLattice(RecursiveSymbolicMemoryLattice):
+    """Backward-compatible alias for lattice consumers."""
+
+    def __init__(self, lattice_file: str, timezone: str = "America/Detroit"):
+        super().__init__(lattice_file=lattice_file, timezone=timezone)
