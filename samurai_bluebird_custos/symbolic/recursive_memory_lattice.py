@@ -15,7 +15,6 @@ class RecursiveSymbolicMemoryLattice:
     """
 
     def __init__(self, lattice_file: str, timezone: str = "America/Detroit"):
-        # Ensure absolute path to memory directory
         project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         self.lattice_file = os.path.join(project_root, lattice_file)
         self.timezone = pytz.timezone(timezone)
@@ -30,25 +29,22 @@ class RecursiveSymbolicMemoryLattice:
             return {}
 
     def update_lattice_from_batch(self, batch_metadata: Dict[str, Any]):
-        """
-        Update the resonance lattice based on processed batch metadata.
-        """
+        """Update the resonance lattice based on processed batch metadata."""
+
         for category, entries in batch_metadata.items():
             if category not in self.lattice:
                 self.lattice[category] = {}
             for neuron_id, data in entries.items():
                 if neuron_id not in self.lattice[category]:
-                    # New symbolic neuron node
                     self.lattice[category][neuron_id] = {
                         "valence": data.get("valence", "neutral"),
                         "familiarity": data.get("familiarity", 0.0),
                         "novelty": data.get("novelty", 1.0),
                         "narrative_hooks": data.get("narrative_hooks", []),
                         "planetary_metadata": data.get("planetary_metadata", {}),
-                        "last_updated": self._current_time()
+                        "last_updated": self._current_time(),
                     }
                 else:
-                    # Update existing node
                     node = self.lattice[category][neuron_id]
                     node["familiarity"] = round((node["familiarity"] + data.get("familiarity", 0.5)) / 2, 3)
                     node["novelty"] = round((node["novelty"] + data.get("novelty", 0.5)) / 2, 3)
@@ -61,9 +57,8 @@ class RecursiveSymbolicMemoryLattice:
         print("🌌 Resonance lattice updated.")
 
     def inductive_update(self, data: dict):
-        """
-        Update the lattice based on inductive reasoning (resonance).
-        """
+        """Update the lattice based on inductive reasoning (resonance)."""
+
         print("🔮 ResonanceLattice: Performing inductive update...")
         try:
             node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
@@ -80,14 +75,13 @@ class RecursiveSymbolicMemoryLattice:
                     "novelty": 0.95,
                     "narrative_hooks": [],
                     "planetary_metadata": {},
-                    "last_updated": self._current_time()
+                    "last_updated": self._current_time(),
                 }
             }
 
     def deductive_update(self, framework_output: dict):
-        """
-        Update the lattice based on deductive reasoning (orthogonal updates).
-        """
+        """Update the lattice based on deductive reasoning (orthogonal updates)."""
+
         print("🧭 ResonanceLattice: Performing deductive update...")
         try:
             node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
@@ -103,28 +97,24 @@ class RecursiveSymbolicMemoryLattice:
                     "novelty": 0.1,
                     "narrative_hooks": [],
                     "planetary_metadata": {},
-                    "last_updated": self._current_time()
+                    "last_updated": self._current_time(),
                 }
             }
 
     def _clamp_values(self):
-        """
-        Keep familiarity and novelty within 0.0–1.0 bounds.
-        """
         node = self.lattice["ResonanceProcessed"]["BlueBoxProcessed"]
         node["familiarity"] = max(0.0, min(node["familiarity"], 1.0))
         node["novelty"] = max(0.0, min(node["novelty"], 1.0))
 
     def get_snapshot_json(self) -> Dict[str, Any]:
-        """
-        Return the current state of the resonance lattice as JSON.
-        """
+        return self.lattice
+
+    def fetch_recent_symbols(self) -> Dict[str, Any]:
+        """Return a lightweight view of the most recently updated symbols."""
+
         return self.lattice
 
     def get_daily_reflection(self) -> str:
-        """
-        Generate a humanized journal entry reflecting on the lattice's state.
-        """
         summary = "\n=== Daily Reflection: {} ===\n".format(self._current_time())
         known = unknown = 0
         emotional_themes: List[str] = []
@@ -157,7 +147,13 @@ class RecursiveSymbolicMemoryLattice:
         return datetime.now(self.timezone).strftime('%Y-%m-%d %H:%M:%S %Z')
 
     def save(self):
-        """
-        Public method to save the current lattice state to disk.
-        """
+        """Public method to save the current lattice state to disk."""
+
         self._save_lattice()
+
+
+class ResonanceLattice(RecursiveSymbolicMemoryLattice):
+    """Compatibility alias for legacy imports."""
+
+    def __init__(self, lattice_file: str, timezone: str = "America/Detroit"):
+        super().__init__(lattice_file, timezone)

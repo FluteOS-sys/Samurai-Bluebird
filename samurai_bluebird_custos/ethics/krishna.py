@@ -65,3 +65,30 @@ def observe_symbolic_drift():
         )
         log_all(alert, META_ALERT_LOG)
         print("⚠️ Meta alert triggered.")
+
+
+class KrishnaMetaObserver:
+    """Summarize the resonance lattice for dashboards."""
+
+    def __init__(self, lattice_instance: ResonanceLattice | None = None):
+        self.lattice = lattice_instance or lattice
+
+    def process_lattice_reflection(self):
+        snapshot = self.lattice.get_snapshot_json()
+        reflection = self.lattice.get_daily_reflection()
+        dominant_themes = extract_dominant_themes(snapshot)
+
+        total_nodes = sum(len(nodes) for nodes in snapshot.values()) or 1
+        unknown_nodes = sum(
+            1 for nodes in snapshot.values() for node in nodes.values() if node.get("familiarity", 0) < 0.7
+        )
+        unknown_ratio = round(unknown_nodes / total_nodes, 3)
+
+        payload = {
+            "daily_reflection": reflection,
+            "dominant_themes": dominant_themes,
+            "unknown_ratio": unknown_ratio,
+            "timestamp": datetime.utcnow().isoformat(),
+        }
+        log_all(payload, WITNESS_LOG, meta_notes="Krishna reflection")
+        return payload
