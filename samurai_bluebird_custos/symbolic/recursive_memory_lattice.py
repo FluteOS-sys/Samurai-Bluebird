@@ -121,6 +121,28 @@ class RecursiveSymbolicMemoryLattice:
         """
         return self.lattice
 
+    def fetch_recent_symbols(self, limit: int = 5) -> Dict[str, Any]:
+        """
+        Lightweight fetch of recent narrative hooks for companion-style summaries.
+        Returns up to `limit` unique hooks to keep prompts concise and human.
+        """
+        hooks: List[str] = []
+        for neurons in self.lattice.values():
+            for node in neurons.values():
+                hooks.extend(node.get("narrative_hooks", []))
+
+        # Preserve order while de-duplicating
+        unique_hooks: List[str] = []
+        seen = set()
+        for hook in hooks:
+            if hook not in seen:
+                unique_hooks.append(hook)
+                seen.add(hook)
+            if len(unique_hooks) >= limit:
+                break
+
+        return {"narrative_hooks": unique_hooks}
+
     def get_daily_reflection(self) -> str:
         """
         Generate a humanized journal entry reflecting on the lattice's state.
@@ -161,3 +183,7 @@ class RecursiveSymbolicMemoryLattice:
         Public method to save the current lattice state to disk.
         """
         self._save_lattice()
+
+
+# Backwards compatibility alias for older imports
+ResonanceLattice = RecursiveSymbolicMemoryLattice

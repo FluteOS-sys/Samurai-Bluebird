@@ -28,11 +28,15 @@ class BlueBox:
         chakra_signals = self.chakra.map_input(meta)
         context_domains = self.context.map_input(meta)
         sovereign_keys = self.sovereignty.list_all()
+        sovereignty_constellation = self.sovereignty.route_affect_to_constellation(
+            meta.get("tags", []), meta.get("weights", {})
+        )
 
         meaning_map = {
             "chakra_signals": chakra_signals,
             "context_domains": context_domains,
             "sovereignties": sovereign_keys,
+            "sovereignty_constellation": sovereignty_constellation,
             "tags": meta.get("tags", []),
             "emotional_tone": meta.get("emotional_tone", "neutral"),
             "resonance_score": meta.get("resonance_score", 0.0),

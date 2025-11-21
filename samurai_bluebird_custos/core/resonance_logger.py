@@ -4,6 +4,18 @@ import json
 import os
 from datetime import datetime
 
+
+def log_all(message: str, filename: str):
+    """
+    Append a message to a log file inside the logs directory.
+    Keeps logging consistent for Krishna, AMS, and other observers.
+    """
+    os.makedirs("logs", exist_ok=True)
+    log_path = os.path.join("logs", filename)
+    with open(log_path, "a") as f:
+        f.write(message + "\n")
+
+
 def write_output_logs(narrative, symbolic_data, meaning_map):
     timestamp = datetime.utcnow().isoformat()
     log_entry = {

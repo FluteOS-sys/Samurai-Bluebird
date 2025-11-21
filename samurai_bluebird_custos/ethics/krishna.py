@@ -1,5 +1,6 @@
 # samurai_bluebird_custos/ethics/krishna.py
 
+import json
 from datetime import datetime, timedelta
 from samurai_bluebird_custos.symbolic.recursive_memory_lattice import ResonanceLattice
 from samurai_bluebird_custos.core.resonance_logger import log_all
@@ -65,3 +66,33 @@ def observe_symbolic_drift():
         )
         log_all(alert, META_ALERT_LOG)
         print("⚠️ Meta alert triggered.")
+
+
+class KrishnaMetaObserver:
+    """
+    Companion-style meta-observer that translates lattice state into human logs.
+    """
+
+    def __init__(self):
+        self.lattice = lattice
+
+    def process_lattice_reflection(self):
+        snapshot = self.lattice.get_snapshot_json()
+        reflection = self.lattice.get_daily_reflection()
+        dominant_themes = extract_dominant_themes(snapshot)
+
+        total_nodes = sum(len(neurons) for neurons in snapshot.values()) or 1
+        unknown_nodes = sum(
+            1 for neurons in snapshot.values() for node in neurons.values() if node.get("familiarity", 0) < 0.7
+        )
+        unknown_ratio = round(unknown_nodes / total_nodes, 3)
+
+        log_payload = {
+            "timestamp": datetime.now().isoformat(timespec="minutes"),
+            "daily_reflection": reflection,
+            "dominant_themes": dominant_themes,
+            "unknown_ratio": unknown_ratio,
+        }
+
+        log_all(json.dumps(log_payload, indent=2), WITNESS_LOG)
+        return log_payload
