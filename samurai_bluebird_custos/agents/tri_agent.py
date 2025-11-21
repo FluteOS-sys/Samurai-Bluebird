@@ -33,6 +33,7 @@ class TriAgent:
             ),
             "emotional_tone": emotion_analysis["tone"],
             "resonance_score": logic_analysis.get("resonance", 0.5),
+            "weights": snapshot.get("weights", {}),
         }
 
         enriched_output = {

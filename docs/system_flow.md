@@ -32,6 +32,10 @@ This document describes the high-level data flow within **Samurai Bluebird Custo
 
 ✅ Writes decisions to `framework_resonance_log.txt`
 
+**FluteOS Sovereignty Constellation Routing**
+
+Reasoned emotions coming out of the Tri-Agent are now projected onto the FluteOS Chakra-Pillar Sovereign Constellation Map. The sovereignty framework resolves tags (or their light/shadow expressions) to a chakra row plus `symbolic_spread` coordinates so the chat UI and robotics dashboards can render an affect map that stays human and companion-style.
+
 ---
 
 ### 🧠 4. AMS Core (Resonance Genesis)

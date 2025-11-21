@@ -11,7 +11,7 @@ Light/Dark dualities reflect the shadow work of organizational and personal dyna
 
 import json
 from pathlib import Path
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Any
 
 
 class Sovereignties:
@@ -66,6 +66,88 @@ class Sovereignties:
         if archetype and 'duality' in archetype:
             return archetype['duality']
         return None
+
+    def match_tag(self, tag: str) -> Optional[str]:
+        '''
+        Attempts to match an arbitrary tag or emotion to a Sovereignty archetype.
+
+        Matching is case-insensitive and will resolve against the sovereignty name
+        as well as its light/dark expressions so we can gracefully route emotional
+        language into the constellation map.
+        '''
+        normalized = tag.strip().lower()
+        for name, data in self.archetypes.items():
+            if normalized == name.lower():
+                return name
+            if normalized == str(data.get('light', '')).lower():
+                return name
+            if normalized == str(data.get('dark', '')).lower():
+                return name
+        return None
+
+    @staticmethod
+    def _resolve_valence(tag: str, archetype: Dict[str, Any]) -> str:
+        '''
+        Determine whether the provided tag is referencing the light, shadow, or
+        neutral expression of the archetype for more human-readable plotting.
+        '''
+        lower_tag = tag.lower()
+        if lower_tag == str(archetype.get("light", "")).lower():
+            return "light"
+        if lower_tag == str(archetype.get("dark", "")).lower():
+            return "shadow"
+        return "neutral"
+
+    def route_affect_to_constellation(
+        self, affect_tags: List[str], weights: Optional[Dict[str, float]] = None
+    ) -> Dict[str, Any]:
+        '''
+        Projects reasoned emotions (sovereignties) onto the FluteOS Chakra-Pillar
+        Sovereign Constellation Map.
+
+        Returns a payload that includes the chakra row, symbolic spread coordinates,
+        and aggregate chakra weighting so the UI or downstream reasoning layers can
+        render the affect map directly.
+        '''
+        weights = weights or {}
+        constellation_nodes: List[Dict[str, Any]] = []
+        chakra_totals: Dict[str, float] = {}
+
+        for tag in affect_tags:
+            match = self.match_tag(tag)
+            if not match:
+                continue
+
+            archetype = self.archetypes.get(match, {})
+            chakra = archetype.get("chakra", "")
+            spread = archetype.get("symbolic_spread", [0, 0])
+            weight = float(weights.get(tag, 1.0))
+            valence = self._resolve_valence(tag, archetype)
+
+            constellation_nodes.append(
+                {
+                    "sovereignty": match,
+                    "chakra": chakra,
+                    "symbolic_spread": spread,
+                    "weight": round(weight, 3),
+                    "valence": valence,
+                    "source_tag": tag,
+                }
+            )
+
+            if chakra:
+                chakra_totals[chakra] = chakra_totals.get(chakra, 0.0) + weight
+
+        total_weight = sum(chakra_totals.values()) or 1.0
+        chakra_affect = {
+            chakra: round(weight / total_weight, 3) for chakra, weight in chakra_totals.items()
+        }
+
+        return {
+            "nodes": constellation_nodes,
+            "chakra_affect": chakra_affect,
+            "matched_tags": [node["source_tag"] for node in constellation_nodes],
+        }
 
     def list_all(self) -> List[str]:
         '''
